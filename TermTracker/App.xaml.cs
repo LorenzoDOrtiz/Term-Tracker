@@ -1,11 +1,15 @@
-﻿namespace TermTracker;
+﻿namespace TermTracker.Maui;
 
 public partial class App : Application
 {
-    public App()
+    private readonly AppShell _appShell;
+
+    public App(AppShell appShell)
     {
         InitializeComponent();
 
-        MainPage = new AppShell();
+        this._appShell = appShell;
+
+        MainPage = _appShell;
     }
 }

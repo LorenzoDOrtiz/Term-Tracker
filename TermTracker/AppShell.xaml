@@ -1,15 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="TermTracker.AppShell"
+    x:Class="TermTracker.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:TermTracker"
-    Shell.FlyoutBehavior="Disabled"
-    Title="TermTracker">
+    xmlns:local="clr-namespace:TermTracker.Maui"
+    xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+    xmlns:model="clr-namespace:TermTracker.CoreBusiness;assembly=TermTracker.CoreBusiness"
+    x:DataType="vm:TermViewModel"
+    Shell.FlyoutBehavior="Flyout"
+    Title="Term Tracker" >
+
+    <Shell.FlyoutHeader>
+        <Grid HeightRequest="50" Padding="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Text="☰"
+                TextColor="Black"
+                FontAttributes="Bold"
+                FontSize="20"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Grid.Column="0"
+                Clicked="Button_Clicked" />
+            <Button Text="+"
+                TextColor="Black"
+                FontAttributes="Bold"
+                FontSize="26"
+                BackgroundColor="Transparent"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.Column="1"
+                Clicked="Button_Clicked" />
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutContentTemplate>
+        <DataTemplate>
+            <CollectionView
+                    ItemsSource="{Binding Terms}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Term">
+                        <VerticalStackLayout>
+                            <Frame>
+                                <Grid RowSpacing="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.5*" />
+                                        <RowDefinition Height="0.5*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Text="{Binding TermName}" FontSize="14" FontAttributes="Bold" Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label Text="{Binding TermStartDate, StringFormat='{0:MM/dd/yyyy - }'}" FontSize="12" Grid.Row="1" Grid.Column="0" HorizontalOptions="End" VerticalOptions="Center"/>
+                                    <Label Text="{Binding TermEndDate, StringFormat='{0:MM/dd/yyyy}'}" FontSize="12" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                                </Grid>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </DataTemplate>
+    </Shell.FlyoutContentTemplate>
 
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+
+
 
 </Shell>

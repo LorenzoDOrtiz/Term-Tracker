@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace TermTracker;
+namespace TermTracker.Maui;
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
 {

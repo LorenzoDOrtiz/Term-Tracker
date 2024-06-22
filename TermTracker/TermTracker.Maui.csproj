@@ -14,14 +14,14 @@
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
-		<RootNamespace>TermTracker</RootNamespace>
+		<RootNamespace>TermTracker.Maui</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>TermTracker</ApplicationTitle>
+		<ApplicationTitle>TermTracker.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.termtracker</ApplicationId>
@@ -63,10 +63,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
 	  <Folder Include="Resources\Images\" />
-	  <Folder Include="ViewModels\" />
 	  <Folder Include="Views\Controls\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Plugins\TermTracker.Plugins.DataStore.InMemory\TermTracker.Plugins.DataStore.InMemory.csproj" />
+	  <ProjectReference Include="..\TermTracker.CoreBusiness\TermTracker.CoreBusiness.csproj" />
+	  <ProjectReference Include="..\TermTracker.UseCases\TermTracker.UseCases.csproj" />
 	</ItemGroup>
 
 </Project>

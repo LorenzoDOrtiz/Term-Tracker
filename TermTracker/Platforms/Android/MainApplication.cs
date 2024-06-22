@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace TermTracker;
+namespace TermTracker.Maui;
 [Application]
 public class MainApplication : MauiApplication
 {
