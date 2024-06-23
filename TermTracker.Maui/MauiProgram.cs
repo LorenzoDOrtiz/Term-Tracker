@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using TermTracker.Maui.Interfaces;
+using TermTracker.Maui.Services;
 using TermTracker.Maui.ViewModels;
 using TermTracker.Maui.Views;
 using TermTracker.Plugins.DataStore.InMemory;
@@ -25,16 +27,16 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-        //Repsitory Interface
+        //Repsitory Interfaces
         builder.Services.AddSingleton<ITermRepository, TermInMemoryRepository>();
 
         // Interfaces
         builder.Services.AddSingleton<IViewTermsUseCase, ViewTermsUseCase>();
-
         builder.Services.AddTransient<IViewTermUseCase, ViewTermUseCase>();
         builder.Services.AddTransient<IEditTermUseCase, EditTermUseCase>();
         builder.Services.AddTransient<IAddTermUseCase, AddTermUseCase>();
         builder.Services.AddTransient<IDeleteTermUseCase, DeleteTermUseCase>();
+        builder.Services.AddTransient<IAlertService, AlertService>();
 
         // Pages
         builder.Services.AddSingleton<AppShell>();
