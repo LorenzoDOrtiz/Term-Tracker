@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermTracker.Maui", "TermTracker\TermTracker.Maui.csproj", "{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermTracker.CoreBusiness", "TermTracker.CoreBusiness\TermTracker.CoreBusiness.csproj", "{20F9892F-E512-47C2-A728-570762EA72BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermTracker.UseCases", "TermTracker.UseCases\TermTracker.UseCases.csproj", "{EC8C4257-D00D-4DF2-A7B1-E371C7E4B9CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{6C1703C6-D2DF-4618-9707-B8907D65A0A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TermTracker.Plugins.DataStore.InMemory", "Plugins\TermTracker.Plugins.DataStore.InMemory\TermTracker.Plugins.DataStore.InMemory.csproj", "{26FA79B9-AF72-4F5B-867C-665BF8ED4664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermTracker.Plugins.DataStore.InMemory", "Plugins\TermTracker.Plugins.DataStore.InMemory\TermTracker.Plugins.DataStore.InMemory.csproj", "{26FA79B9-AF72-4F5B-867C-665BF8ED4664}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TermTracker.Maui", "TermTracker.Maui\TermTracker.Maui.csproj", "{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{587CAA5E-A0C4-423C-B7C7-E99792B2D9FA}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{20F9892F-E512-47C2-A728-570762EA72BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{20F9892F-E512-47C2-A728-570762EA72BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20F9892F-E512-47C2-A728-570762EA72BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,6 +31,12 @@ Global
 		{26FA79B9-AF72-4F5B-867C-665BF8ED4664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26FA79B9-AF72-4F5B-867C-665BF8ED4664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26FA79B9-AF72-4F5B-867C-665BF8ED4664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF9DA07-E8A1-4FE6-9752-19ACF8BE08CD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
