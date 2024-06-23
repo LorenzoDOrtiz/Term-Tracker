@@ -63,4 +63,16 @@ public partial class TermsViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(AddTermPage));
         Shell.Current.FlyoutIsPresented = false;
     }
+
+    [RelayCommand]
+    public async Task GotoTermCourses(Term term)
+    {
+        // ?Term={term} only works when using primative types, not objects, so we have to pass the term to the page using a dictionary
+        var queryParams = new Dictionary<string, object>
+        {
+            { "Term", term }
+        };
+        await Shell.Current.GoToAsync(nameof(TermCoursesPage), queryParams);
+        Shell.Current.FlyoutIsPresented = false;
+    }
 }
