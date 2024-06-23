@@ -23,4 +23,56 @@ public class TermInMemoryRepository : ITermRepository
     {
         return Task.FromResult(_terms);
     }
+
+    public Task AddTermAsync(Term term)
+    {
+        var maxId = _terms.Max(x => x.TermId);
+        term.TermId = maxId + 1;
+        _terms.Add(term);
+
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteTermAsync(int termId)
+    {
+        var term = _terms.FirstOrDefault(x => x.TermId == termId);
+        if (term != null)
+        {
+            _terms.Remove(term);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task<Term> GetTermByIdAsync(int termId)
+    {
+        var term = _terms.FirstOrDefault(x => x.TermId == termId);
+        if (term != null)
+        {
+            return Task.FromResult(new Term
+            {
+                TermId = termId,
+                TermName = term.TermName,
+                TermStartDate = term.TermStartDate,
+                TermEndDate = term.TermEndDate
+            });
+        }
+
+        return null;
+    }
+
+    public Task UpdateTermAsync(int termId, Term term)
+    {
+        if (termId != term.TermId) return Task.CompletedTask;
+
+        var termToUpdate = _terms.FirstOrDefault(x => x.TermId == termId);
+        if (termToUpdate != null)
+        {
+            termToUpdate.TermName = term.TermName;
+            termToUpdate.TermStartDate = term.TermStartDate;
+            termToUpdate.TermEndDate = term.TermEndDate;
+        }
+
+        return Task.CompletedTask;
+    }
 }
