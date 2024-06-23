@@ -5,7 +5,6 @@
              x:DataType="vm:TermViewModel"
              x:Class="TermTracker.Maui.Views.Controls.TermControl">
     
-    <VerticalStackLayout Margin="20" Spacing="10">
     
         <Label Text="Term Name" />
         <Entry Text="{Binding Term.TermName}"/>
