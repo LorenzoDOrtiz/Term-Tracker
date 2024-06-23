@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using TermTracker.Maui.ViewModels;
+using TermTracker.Maui.Views;
 using TermTracker.Plugins.DataStore.InMemory;
 using TermTracker.UseCases;
 using TermTracker.UseCases.Interfaces;
@@ -18,25 +20,30 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-
+        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
-        // Interfaces
+        //Repsitory Interface
         builder.Services.AddSingleton<ITermRepository, TermInMemoryRepository>();
 
+        // Interfaces
         builder.Services.AddSingleton<IViewTermsUseCase, ViewTermsUseCase>();
-        //builder.Services.AddSingleton<IEditTermsUseCase, IEditTermsUseCase>();
-        //builder.Services.AddSingleton<IAddTermsUseCase, IAddTermsUseCase>();
-        //builder.Services.AddSingleton<IDeleteTermsUseCase, IDeleteTermsUseCase>();
+
+        builder.Services.AddTransient<IViewTermUseCase, ViewTermUseCase>();
+        builder.Services.AddTransient<IEditTermUseCase, EditTermUseCase>();
+        builder.Services.AddTransient<IAddTermUseCase, AddTermUseCase>();
+        builder.Services.AddTransient<IDeleteTermUseCase, DeleteTermUseCase>();
 
         // Pages
         builder.Services.AddSingleton<AppShell>();
+        builder.Services.AddSingleton<AddTermPage>();
+        builder.Services.AddSingleton<EditTermPage>();
 
         // ViewModels
+        builder.Services.AddSingleton<TermsViewModel>();
         builder.Services.AddSingleton<TermViewModel>();
-
 
 
         return builder.Build();

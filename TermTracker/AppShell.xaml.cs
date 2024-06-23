@@ -1,54 +1,38 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.ObjectModel;
 using TermTracker.CoreBusiness;
 using TermTracker.Maui.ViewModels;
+using TermTracker.Maui.Views;
 using TermTracker.UseCases.Interfaces;
 using TermTracker.UseCases.PluginInterfaces;
+using static TermTracker.Maui.ViewModels.TermViewModel;
 
 namespace TermTracker.Maui;
 
 public partial class AppShell : Shell
 {
-    private readonly TermViewModel termViewModel;
-    public AppShell(TermViewModel termViewModel)
+    private readonly TermsViewModel termsViewModel;
+    public AppShell(TermsViewModel termsViewModel)
     {
         InitializeComponent();
-        this.termViewModel = termViewModel;
+        this.termsViewModel = termsViewModel;
 
-        this.BindingContext = termViewModel;
+        this.BindingContext = termsViewModel;
+        
+        Routing.RegisterRoute(nameof(AddTermPage), typeof(AddTermPage));
+        Routing.RegisterRoute(nameof(EditTermPage), typeof(EditTermPage));
 
-        SetFlyoutWidth();
+        // So I guess MAUI still doesn't support automatic databinding updates with the shell, so we'll have to do this manually 
+        WeakReferenceMessenger.Default.Register<TermSavedMessage>(this, (r, m) =>
+        {
+            termsViewModel.LoadTermsAsync();
+        });
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await this.termViewModel.LoadTerms();
+
+        await this.termsViewModel.LoadTermsAsync();
     }
-
-    private void SetFlyoutWidth()
-    {
-        // Get the main display info
-        var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
-
-        // Calculate the flyout width as half of the screen width
-        double flyoutWidth = mainDisplayInfo.Width / mainDisplayInfo.Density / 2;
-
-        // Set the FlyoutWidth property
-        this.FlyoutWidth = flyoutWidth;
-    }
-
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-        var button = sender as Button;
-
-        // Set the text color to light gray when it's clicked
-        button.TextColor = Colors.LightGray;
-
-        // Delay setting the text color back to transparent
-        button.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(200), () =>
-        {
-            button.TextColor = Colors.Black;
-        });
-    }
-
 }

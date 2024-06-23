@@ -18,7 +18,6 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
 		<ApplicationTitle>TermTracker.Maui</ApplicationTitle>
@@ -56,6 +55,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
@@ -64,13 +64,30 @@
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\" />
-	  <Folder Include="Views\Controls\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Plugins\TermTracker.Plugins.DataStore.InMemory\TermTracker.Plugins.DataStore.InMemory.csproj" />
 	  <ProjectReference Include="..\TermTracker.CoreBusiness\TermTracker.CoreBusiness.csproj" />
 	  <ProjectReference Include="..\TermTracker.UseCases\TermTracker.UseCases.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\AddTermPage.xaml.cs">
+	    <DependentUpon>AddTermPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AddTermPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\TermControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EditTermPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
