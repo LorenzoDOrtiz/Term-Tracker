@@ -1,4 +1,4 @@
-using TermTracker.CoreBusiness;
+using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.ViewModels;
 
 namespace TermTracker.Maui.Views;
@@ -8,7 +8,7 @@ public partial class AddTermPage : ContentPage
     private readonly TermViewModel termViewModel;
 
     public AddTermPage(TermViewModel termViewModel)
-	{
+    {
         InitializeComponent();
         this.termViewModel = termViewModel;
 

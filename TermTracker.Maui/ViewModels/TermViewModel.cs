@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Threading.Channels;
-using TermTracker.CoreBusiness;
+using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Interfaces;
 using TermTracker.UseCases.Interfaces;
 

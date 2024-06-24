@@ -1,16 +1,19 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using TermTracker.CoreBusiness;
+using TermTracker.CoreBusiness.Models;
+using TermTracker.Maui.ViewModels;
 
 namespace TermTracker.Maui.Views
 {
     [QueryProperty(nameof(Term), "Term")]
     public partial class TermCoursesPage : ContentPage
     {
+        private readonly CoursesViewModel coursesViewModel;
         private Term _term;
 
-        public TermCoursesPage()
+        public TermCoursesPage(CoursesViewModel coursesViewModel)
         {
             InitializeComponent();
+            this.coursesViewModel = coursesViewModel;
+            BindingContext = this.coursesViewModel;
         }
 
         public Term Term
@@ -19,15 +22,17 @@ namespace TermTracker.Maui.Views
             set
             {
                 _term = value;
-                OnPropertyChanged(nameof(Term)); 
+                OnPropertyChanged(nameof(Term));
                 UpdateTitle();
+                coursesViewModel.CurrentTerm = _term; // Pass the term to the ViewModel
             }
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            UpdateTitle(); 
+            UpdateTitle();
+            await this.coursesViewModel.LoadCoursesAsync(Term.TermId);
         }
 
         private void UpdateTitle()

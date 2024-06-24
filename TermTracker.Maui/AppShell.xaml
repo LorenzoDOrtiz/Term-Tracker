@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:TermTracker.Maui"
     xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
-    xmlns:model="clr-namespace:TermTracker.CoreBusiness;assembly=TermTracker.CoreBusiness"
+    xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
     xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
     x:DataType="vm:TermsViewModel"
     Shell.FlyoutBehavior="Flyout"

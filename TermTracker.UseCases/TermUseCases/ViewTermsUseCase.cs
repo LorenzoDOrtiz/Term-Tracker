@@ -1,8 +1,8 @@
-﻿using TermTracker.UseCases.Interfaces;
+﻿using TermTracker.CoreBusiness.Models;
+using TermTracker.UseCases.Interfaces;
 using TermTracker.UseCases.PluginInterfaces;
-using Term = TermTracker.CoreBusiness.Term;
 
-namespace TermTracker.UseCases;
+namespace TermTracker.UseCases.TermUseCases;
 
 // All the code in this file is included in all platforms.
 public class ViewTermsUseCase : IViewTermsUseCase

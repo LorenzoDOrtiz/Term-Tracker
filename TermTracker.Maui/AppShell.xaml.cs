@@ -1,10 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using System.Collections.ObjectModel;
-using TermTracker.CoreBusiness;
 using TermTracker.Maui.ViewModels;
 using TermTracker.Maui.Views;
-using TermTracker.UseCases.Interfaces;
-using TermTracker.UseCases.PluginInterfaces;
 using static TermTracker.Maui.ViewModels.TermViewModel;
 
 namespace TermTracker.Maui;
@@ -18,15 +14,16 @@ public partial class AppShell : Shell
         this.termsViewModel = termsViewModel;
 
         this.BindingContext = termsViewModel;
-        
+
         Routing.RegisterRoute(nameof(AddTermPage), typeof(AddTermPage));
         Routing.RegisterRoute(nameof(EditTermPage), typeof(EditTermPage));
         Routing.RegisterRoute(nameof(TermCoursesPage), typeof(TermCoursesPage));
+        Routing.RegisterRoute(nameof(AddCoursePage), typeof(AddCoursePage));
 
         // So I guess MAUI still doesn't support automatic databinding updates with the shell, so we'll have to do this manually 
-        WeakReferenceMessenger.Default.Register<TermSavedMessage>(this, (r, m) =>
+        WeakReferenceMessenger.Default.Register<TermSavedMessage>(this, async (r, m) =>
         {
-            termsViewModel.LoadTermsAsync();
+            await termsViewModel.LoadTermsAsync();
         });
     }
 

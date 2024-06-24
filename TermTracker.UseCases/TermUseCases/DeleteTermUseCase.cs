@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TermTracker.Maui.ViewModels;
 using TermTracker.UseCases.PluginInterfaces;
 
-namespace TermTracker.UseCases;
+namespace TermTracker.UseCases.TermUseCases;
 public class DeleteTermUseCase : IDeleteTermUseCase
 {
     private readonly ITermRepository termRepository;
@@ -18,6 +18,6 @@ public class DeleteTermUseCase : IDeleteTermUseCase
 
     public async Task ExecuteAsync(int termId)
     {
-        await this.termRepository.DeleteTermAsync(termId);
+        await termRepository.DeleteTermAsync(termId);
     }
 }

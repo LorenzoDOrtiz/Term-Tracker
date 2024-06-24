@@ -2,12 +2,12 @@ using System.Runtime.CompilerServices;
 
 namespace TermTracker.Maui.Views.Controls;
 
-public partial class TermControl : ContentView
+public partial class CourseControl : ContentView
 {
     public bool IsForEdit { get; set; }
     public bool IsForAdd { get; set; }
 
-    public TermControl()
+    public CourseControl()
     {
         InitializeComponent();
     }
@@ -15,9 +15,7 @@ public partial class TermControl : ContentView
     {
         base.OnPropertyChanged(propertyName);
 
-        if (IsForAdd && !IsForEdit)
-            btnSave.SetBinding(Button.CommandProperty, "AddTermCommand");
-        else if (!IsForAdd && IsForEdit)
-            btnSave.SetBinding(Button.CommandProperty, "EditTermCommand");
+        if (IsForAdd)
+            btnSave.SetBinding(Button.CommandProperty, "AddCourseCommand");
     }
 }

@@ -1,4 +1,4 @@
-﻿using TermTracker.CoreBusiness;
+﻿using TermTracker.CoreBusiness.Models;
 
 namespace TermTracker.UseCases.Interfaces;
 

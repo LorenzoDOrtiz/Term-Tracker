@@ -1,7 +1,7 @@
 ﻿using TermTracker.CoreBusiness.Models;
 
 namespace TermTracker.UseCases.Interfaces;
-public interface IViewTermsUseCase
+public interface IViewCoursesUseCase
 {
-    Task<List<Term>> ExecuteAsync();
+    Task<List<Course>> ExecuteAsync(int termId);
 }

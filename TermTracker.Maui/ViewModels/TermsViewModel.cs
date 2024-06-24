@@ -1,13 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
-using TermTracker.CoreBusiness;
+using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Views;
-using TermTracker.Plugins.DataStore.InMemory;
-using TermTracker.UseCases;
 using TermTracker.UseCases.Interfaces;
-using TermTracker.UseCases.PluginInterfaces;
 //using static TermTracker.Maui.ViewModels.TermViewModel;
 
 namespace TermTracker.Maui.ViewModels;
@@ -24,14 +20,12 @@ public partial class TermsViewModel : ObservableObject
         this.viewTermUseCase = viewTermUseCase;
         this.deleteTermUseCase = deleteTermUseCase;
         this.Terms = new ObservableCollection<Term>();
-
-       
     }
 
     public async Task LoadTermsAsync()
     {
         this.Terms.Clear();
-        
+
         var Terms = await viewTermUseCase.ExecuteAsync();
 
         if (Terms != null && Terms.Count > 0)
@@ -40,9 +34,9 @@ public partial class TermsViewModel : ObservableObject
             {
                 this.Terms.Add(term);
             }
-        } 
+        }
     }
-     
+
     [RelayCommand]
     public async Task DeleteTerm(int termId)
     {

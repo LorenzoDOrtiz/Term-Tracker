@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
              xmlns:controls="clr-namespace:TermTracker.Maui.Views.Controls"
-             x:DataType="vm:TermViewModel"
-             x:Class="TermTracker.Maui.Views.AddTermPage"
-             Title="Add Term">
-    <controls:TermControl
+             x:DataType="vm:CourseViewModel"
+             x:Class="TermTracker.Maui.Views.AddCoursePage"
+             Title="AddCoursePage">
+    <controls:CourseControl
         IsForAdd="True"
         BindingContext="{Binding .}">
-    </controls:TermControl>
+    </controls:CourseControl>
 </ContentPage>

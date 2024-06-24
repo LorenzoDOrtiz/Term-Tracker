@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TermTracker.CoreBusiness;
+﻿using TermTracker.CoreBusiness.Models;
 using TermTracker.UseCases.Interfaces;
 using TermTracker.UseCases.PluginInterfaces;
 
-namespace TermTracker.UseCases;
+namespace TermTracker.UseCases.TermUseCases;
 public class ViewTermUseCase : IViewTermUseCase
 {
     private readonly ITermRepository termRepository;
@@ -18,6 +13,6 @@ public class ViewTermUseCase : IViewTermUseCase
 
     public async Task<Term> ExecuteAsync(int termId)
     {
-        return await this.termRepository.GetTermByIdAsync(termId);
+        return await termRepository.GetTermByIdAsync(termId);
     }
 }

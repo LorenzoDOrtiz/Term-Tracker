@@ -1,5 +1,5 @@
 ﻿using TermTracker.UseCases.PluginInterfaces;
-using Term = TermTracker.CoreBusiness.Term;
+using Term = TermTracker.CoreBusiness.Models.Term;
 
 namespace TermTracker.Plugins.DataStore.InMemory;
 
@@ -13,10 +13,10 @@ public class TermInMemoryRepository : ITermRepository
         _terms = new List<Term>()
         {
             new Term {TermId = 1, TermName = "Term 1", TermStartDate = DateTime.Now, TermEndDate = DateTime.Now.AddMonths(6)},
-            new Term {TermId = 2, TermName = "Term 2", TermStartDate = DateTime.Now, TermEndDate = DateTime.Now.AddMonths(7)},
-            new Term {TermId = 3, TermName = "Term 3", TermStartDate = DateTime.Now, TermEndDate = DateTime.Now.AddMonths(8)},
-            new Term {TermId = 4, TermName = "Term 4", TermStartDate = DateTime.Now, TermEndDate = DateTime.Now.AddMonths(9)},
-            new Term {TermId = 5, TermName = "Term 5", TermStartDate = DateTime.Now, TermEndDate = DateTime.Now.AddMonths(10)}
+            new Term {TermId = 2, TermName = "Term 2", TermStartDate = DateTime.Now.AddMonths(12), TermEndDate = DateTime.Now.AddMonths(18)},
+            new Term {TermId = 3, TermName = "Term 3", TermStartDate = DateTime.Now.AddMonths(18), TermEndDate = DateTime.Now.AddMonths(24)},
+            new Term {TermId = 4, TermName = "Term 4", TermStartDate = DateTime.Now.AddMonths(24), TermEndDate = DateTime.Now.AddMonths(30)},
+            new Term {TermId = 5, TermName = "Term 5", TermStartDate = DateTime.Now.AddMonths(30), TermEndDate = DateTime.Now.AddMonths(36)}
         };
     }
     public Task<List<Term>> GetTermsAsync()

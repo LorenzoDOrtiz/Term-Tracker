@@ -1,4 +1,4 @@
-﻿using Term = TermTracker.CoreBusiness.Term;
+﻿using TermTracker.CoreBusiness.Models;
 
 namespace TermTracker.UseCases.PluginInterfaces;
 public interface ITermRepository
@@ -7,5 +7,5 @@ public interface ITermRepository
     Task<Term> GetTermByIdAsync(int termId);
     Task AddTermAsync(Term term);
     Task DeleteTermAsync(int termId);
-    Task UpdateTermAsync(int termId, Term term); 
+    Task UpdateTermAsync(int termId, Term term);
 }

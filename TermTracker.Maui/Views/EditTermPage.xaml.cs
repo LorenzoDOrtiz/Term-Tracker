@@ -1,7 +1,4 @@
-using Microsoft.Maui.ApplicationModel.Communication;
-using TermTracker.CoreBusiness;
 using TermTracker.Maui.ViewModels;
-using TermTracker.UseCases.Interfaces;
 
 namespace TermTracker.Maui.Views;
 
@@ -10,24 +7,24 @@ public partial class EditTermPage : ContentPage
 {
     private readonly TermViewModel termViewModel;
 
-	public EditTermPage(TermViewModel termViewModel)
-	{
-		InitializeComponent();
+    public EditTermPage(TermViewModel termViewModel)
+    {
+        InitializeComponent();
         this.termViewModel = termViewModel;
-		
-		this.BindingContext = this.termViewModel;
-	}
 
-	public string TermId
-	{
-		set
-		{
+        this.BindingContext = this.termViewModel;
+    }
+
+    public string TermId
+    {
+        set
+        {
             if (!string.IsNullOrWhiteSpace(value) && int.TryParse(value, out int termId))
             {
                 LoadTerm(termId);
             }
         }
-	}
+    }
 
     private async void LoadTerm(int termId)
     {
