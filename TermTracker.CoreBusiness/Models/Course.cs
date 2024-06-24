@@ -1,5 +1,5 @@
 ﻿namespace TermTracker.CoreBusiness.Models;
-public partial class Course
+public class Course
 {
     public int TermId { get; set; }
     public int CourseId { get; set; }
