@@ -1,20 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace TermTracker.CoreBusiness.Models;
-public partial class Course : ObservableObject
+﻿namespace TermTracker.CoreBusiness.Models;
+public partial class Course
 {
-    [ObservableProperty]
-    public int termId;
-
-    [ObservableProperty]
-    public int courseId;
-
-    [ObservableProperty]
-    public string courseName;
-
-    [ObservableProperty]
-    public DateTime courseStartDate;
-
-    [ObservableProperty]
-    public DateTime courseEndDate;
+    public int TermId { get; set; }
+    public int CourseId { get; set; }
+    public string CourseName { get; set; }
+    public DateTime CourseStartDate { get; set; }
+    public DateTime CourseEndDate { get; set; }
 }
