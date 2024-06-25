@@ -1,11 +1,11 @@
 ﻿using TermTracker.CoreBusiness.Models;
 
 namespace TermTracker.UseCases.PluginInterfaces;
-public interface ICourseRepository
+public interface ICourseRepository<T>
 {
-    Task<List<Course>> GetCoursesAsync(int termId);
-    //Task<Course> GetTermByIdAsync(int termId);
-    Task AddCourseAsync(Course course);
-    //Task DeleteTermAsync(int termId);
-    //Task UpdateTermAsync(int termId, Course term);
+    Task<List<Course>> GetAllAsync(int termId);
+    Task AddAsync(T obj);
+    Task<Course> GetByIdAsync(int id);
+    Task UpdateAsync(int id, T obj);
+    Task DeleteAsync(int id);
 }

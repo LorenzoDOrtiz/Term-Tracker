@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Interfaces;
-using TermTracker.UseCases.Interfaces;
+using TermTracker.UseCases.UseCaseInterfaces;
 
 namespace TermTracker.Maui.ViewModels;
 public partial class CourseViewModel : ObservableObject
@@ -10,12 +10,20 @@ public partial class CourseViewModel : ObservableObject
     [ObservableProperty]
     private Course course;
 
-    private readonly IAddCourseUseCase addCourseUseCase;
+    private readonly IAddUseCase<Course> addCourseUseCase;
+    private readonly IViewUseCase<Course> viewCourseUseCase;
+    private readonly IEditUseCase<Course> editCourseUseCase;
     private readonly IAlertService alertService;
-    public CourseViewModel(IAddCourseUseCase addCourseUseCase,
-                         IAlertService alertService)
+
+
+    public CourseViewModel(IViewUseCase<Course> viewCourseUseCase,
+                            IAddUseCase<Course> addCourseUseCase,
+                           IEditUseCase<Course> editCourseUseCase,
+                           IAlertService alertService)
     {
         this.addCourseUseCase = addCourseUseCase;
+        this.editCourseUseCase = editCourseUseCase;
+        this.viewCourseUseCase = viewCourseUseCase;
         this.alertService = alertService;
     }
 
@@ -30,6 +38,25 @@ public partial class CourseViewModel : ObservableObject
 
         await Shell.Current.GoToAsync("..");
     }
+    public async Task LoadCourse(int courseId)
+    {
+        this.Course = await this.viewCourseUseCase.ExecuteAsync(courseId);
+    }
+
+    [RelayCommand]
+    public async Task EditCourse()
+    {
+        if (!await IsValidCourse())
+        {
+            return;
+        }
+        await this.editCourseUseCase.ExecuteAsync(this.Course.CourseId, this.Course);
+
+
+
+        await Shell.Current.GoToAsync("..");
+    }
+
     public async Task<bool> IsValidCourse()
     {
 

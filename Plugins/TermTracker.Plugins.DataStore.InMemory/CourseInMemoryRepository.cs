@@ -2,9 +2,9 @@
 using TermTracker.UseCases.PluginInterfaces;
 
 namespace TermTracker.Plugins.DataStore.InMemory;
-public class CourseInMemoryRepository : ICourseRepository
+public class CourseInMemoryRepository : ICourseRepository<Course>
 {
-    public static List<Course> _courses;
+    public List<Course> _courses;
     public CourseInMemoryRepository()
     {
         _courses = new List<Course>()
@@ -19,17 +19,61 @@ public class CourseInMemoryRepository : ICourseRepository
         };
 
     }
-    public Task<List<Course>> GetCoursesAsync(int termId)
+
+    public Task<List<Course>> GetAllAsync(int termId)
     {
         var filteredCourses = _courses.Where(course => course.TermId == termId).ToList();
         return Task.FromResult(filteredCourses);
     }
 
-    public Task AddCourseAsync(Course course)
+    public Task AddAsync(Course course)
     {
         var maxId = _courses.Max(x => x.CourseId);
         course.CourseId = maxId + 1;
         _courses.Add(course);
+
+        return Task.CompletedTask;
+    }
+    public Task<Course> GetByIdAsync(int courseId)
+    {
+        var course = _courses.FirstOrDefault(x => x.CourseId == courseId);
+        if (course != null)
+        {
+            return Task.FromResult(new Course
+            {
+                CourseId = courseId,
+                TermId = course.TermId,
+                CourseName = course.CourseName,
+                CourseStartDate = course.CourseStartDate,
+                CourseEndDate = course.CourseEndDate
+            });
+        }
+        return Task.FromResult<Course>(null);
+    }
+
+    public Task UpdateAsync(int courseId, Course course)
+    {
+        if (courseId != course.CourseId) return Task.CompletedTask;
+
+        var courseToUpdate = _courses.FirstOrDefault(x => x.CourseId == courseId);
+        if (courseToUpdate != null)
+        {
+            courseToUpdate.CourseId = courseId;
+            courseToUpdate.TermId = course.TermId;
+            courseToUpdate.CourseName = course.CourseName;
+            courseToUpdate.CourseStartDate = course.CourseStartDate;
+            courseToUpdate.CourseEndDate = course.CourseEndDate;
+        }
+
+        return Task.CompletedTask;
+    }
+    public Task DeleteAsync(int courseId)
+    {
+        var course = _courses.FirstOrDefault(x => x.CourseId == courseId);
+        if (course != null)
+        {
+            _courses.Remove(course);
+        }
 
         return Task.CompletedTask;
     }

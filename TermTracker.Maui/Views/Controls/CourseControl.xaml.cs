@@ -15,7 +15,9 @@ public partial class CourseControl : ContentView
     {
         base.OnPropertyChanged(propertyName);
 
-        if (IsForAdd)
+        if (IsForAdd && !IsForEdit)
             btnSave.SetBinding(Button.CommandProperty, "AddCourseCommand");
+        else if (!IsForAdd && IsForEdit)
+            btnSave.SetBinding(Button.CommandProperty, "EditCourseCommand");
     }
 }

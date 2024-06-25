@@ -1,14 +1,15 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Interfaces;
 using TermTracker.Maui.Services;
 using TermTracker.Maui.ViewModels;
 using TermTracker.Maui.Views;
 using TermTracker.Plugins.DataStore.InMemory;
-using TermTracker.UseCases.CourseUseCases;
-using TermTracker.UseCases.Interfaces;
 using TermTracker.UseCases.PluginInterfaces;
-using TermTracker.UseCases.TermUseCases;
+using TermTracker.UseCases.UseCaseImplementations;
+using TermTracker.UseCases.UseCaseInterfaces;
+using TermTracker.UseCases.UseCases;
 
 namespace TermTracker.Maui;
 public static class MauiProgram
@@ -28,22 +29,25 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        //Repsitory Interfaces
-        builder.Services.AddSingleton<ITermRepository, TermInMemoryRepository>();
-        builder.Services.AddSingleton<ICourseRepository, CourseInMemoryRepository>();
+        // Register the repositories and their interfaces as singletons
+        builder.Services.AddSingleton<ICourseRepository<Course>, CourseInMemoryRepository>();
+        builder.Services.AddSingleton<ITermRepository<Term>, TermInMemoryRepository>();
 
         // Interfaces
-        builder.Services.AddSingleton<IViewTermsUseCase, ViewTermsUseCase>();
-        builder.Services.AddTransient<IViewTermUseCase, ViewTermUseCase>();
+        builder.Services.AddTransient<IViewCollectionUseCase<Course>, ViewCollectionUseCase<Course>>();
+        builder.Services.AddTransient<IViewCollectionUseCase<Term>, ViewCollectionUseCase<Term>>();
 
-        builder.Services.AddTransient<IEditTermUseCase, EditTermUseCase>();
-        builder.Services.AddTransient<IAddTermUseCase, AddTermUseCase>();
-        builder.Services.AddTransient<IDeleteTermUseCase, DeleteTermUseCase>();
+        builder.Services.AddTransient<IViewUseCase<Term>, ViewUseCase<Term>>();
+        builder.Services.AddTransient<IViewUseCase<Course>, ViewUseCase<Course>>();
 
+        builder.Services.AddTransient<IAddUseCase<Term>, AddUseCase<Term>>();
+        builder.Services.AddTransient<IAddUseCase<Course>, AddUseCase<Course>>();
 
-        builder.Services.AddSingleton<IViewCoursesUseCase, ViewCoursesUseCase>();
+        builder.Services.AddTransient<IEditUseCase<Term>, EditUseCase<Term>>();
+        builder.Services.AddTransient<IEditUseCase<Course>, EditUseCase<Course>>();
 
-        builder.Services.AddTransient<IAddCourseUseCase, AddCourseUseCase>();
+        builder.Services.AddTransient<IDeleteUseCase<Term>, DeleteUseCase<Term>>();
+        builder.Services.AddTransient<IDeleteUseCase<Course>, DeleteUseCase<Course>>();
 
         builder.Services.AddTransient<IAlertService, AlertService>();
 
@@ -51,15 +55,17 @@ public static class MauiProgram
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddSingleton<AddTermPage>();
         builder.Services.AddSingleton<EditTermPage>();
-
         builder.Services.AddSingleton<TermCoursesPage>();
         builder.Services.AddSingleton<AddCoursePage>();
+        builder.Services.AddSingleton<CourseDetailPage>();
+        builder.Services.AddSingleton<EditCoursePage>();
+
+
 
 
         // ViewModels
         builder.Services.AddSingleton<TermsViewModel>();
         builder.Services.AddSingleton<TermViewModel>();
-
         builder.Services.AddSingleton<CoursesViewModel>();
         builder.Services.AddSingleton<CourseViewModel>();
 

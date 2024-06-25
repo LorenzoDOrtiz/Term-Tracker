@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Threading.Channels;
 using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Interfaces;
-using TermTracker.UseCases.Interfaces;
+using TermTracker.UseCases.UseCaseInterfaces;
 
 namespace TermTracker.Maui.ViewModels;
 public partial class TermViewModel : ObservableObject
@@ -12,16 +11,16 @@ public partial class TermViewModel : ObservableObject
     [ObservableProperty]
     private Term term;
 
-    private readonly IViewTermUseCase viewTermUseCase;
-    private readonly IEditTermUseCase editTermUseCase;
-    private readonly IAddTermUseCase addTermUseCase;
+    private readonly IViewUseCase<Term> viewTermUseCase;
+    private readonly IEditUseCase<Term> editTermUseCase;
+    private readonly IAddUseCase<Term> addTermUseCase;
     private readonly IAlertService alertService;
 
     public record TermSavedMessage(Term Term);
 
-    public TermViewModel(IViewTermUseCase viewTermUseCase, 
-                         IEditTermUseCase editTermUseCase, 
-                         IAddTermUseCase addTermUseCase, 
+    public TermViewModel(IViewUseCase<Term> viewTermUseCase,
+                         IEditUseCase<Term> editTermUseCase,
+                         IAddUseCase<Term> addTermUseCase,
                          IAlertService alertService)
     {
         this.Term = new Term();
@@ -39,7 +38,7 @@ public partial class TermViewModel : ObservableObject
     [RelayCommand]
     public async Task AddTerm()
     {
-        if (!await  IsValidTerm())
+        if (!await IsValidTerm())
         {
             return;
         }

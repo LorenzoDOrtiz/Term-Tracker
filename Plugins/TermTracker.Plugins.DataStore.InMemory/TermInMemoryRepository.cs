@@ -2,11 +2,9 @@
 using Term = TermTracker.CoreBusiness.Models.Term;
 
 namespace TermTracker.Plugins.DataStore.InMemory;
-
-// All the code in this file is included in all platforms.
-public class TermInMemoryRepository : ITermRepository
+public class TermInMemoryRepository : ITermRepository<Term>
 {
-    public static List<Term> _terms;
+    public List<Term> _terms;
 
     public TermInMemoryRepository()
     {
@@ -19,12 +17,12 @@ public class TermInMemoryRepository : ITermRepository
             new Term {TermId = 5, TermName = "Term 5", TermStartDate = DateTime.Now.AddMonths(30), TermEndDate = DateTime.Now.AddMonths(36)}
         };
     }
-    public Task<List<Term>> GetTermsAsync()
+    public Task<List<Term>> GetAllAsync()
     {
         return Task.FromResult(_terms);
     }
 
-    public Task AddTermAsync(Term term)
+    public Task AddAsync(Term term)
     {
         var maxId = _terms.Max(x => x.TermId);
         term.TermId = maxId + 1;
@@ -33,7 +31,7 @@ public class TermInMemoryRepository : ITermRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteTermAsync(int termId)
+    public Task DeleteAsync(int termId)
     {
         var term = _terms.FirstOrDefault(x => x.TermId == termId);
         if (term != null)
@@ -44,7 +42,7 @@ public class TermInMemoryRepository : ITermRepository
         return Task.CompletedTask;
     }
 
-    public Task<Term> GetTermByIdAsync(int termId)
+    public Task<Term> GetByIdAsync(int termId)
     {
         var term = _terms.FirstOrDefault(x => x.TermId == termId);
         if (term != null)
@@ -57,17 +55,17 @@ public class TermInMemoryRepository : ITermRepository
                 TermEndDate = term.TermEndDate
             });
         }
-
-        return null;
+        return Task.FromResult<Term>(null);
     }
 
-    public Task UpdateTermAsync(int termId, Term term)
+    public Task UpdateAsync(int termId, Term term)
     {
         if (termId != term.TermId) return Task.CompletedTask;
 
         var termToUpdate = _terms.FirstOrDefault(x => x.TermId == termId);
         if (termToUpdate != null)
         {
+            termToUpdate.TermId = termId;
             termToUpdate.TermName = term.TermName;
             termToUpdate.TermStartDate = term.TermStartDate;
             termToUpdate.TermEndDate = term.TermEndDate;

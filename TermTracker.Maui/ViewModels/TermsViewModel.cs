@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Views;
-using TermTracker.UseCases.Interfaces;
+using TermTracker.UseCases.UseCaseInterfaces;
 //using static TermTracker.Maui.ViewModels.TermViewModel;
 
 namespace TermTracker.Maui.ViewModels;
@@ -12,10 +12,10 @@ public partial class TermsViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<Term> terms;
 
-    private readonly IViewTermsUseCase viewTermUseCase;
-    private readonly IDeleteTermUseCase deleteTermUseCase;
+    private readonly IViewCollectionUseCase<Term> viewTermUseCase;
+    private readonly IDeleteUseCase<Term> deleteTermUseCase;
 
-    public TermsViewModel(IViewTermsUseCase viewTermUseCase, IDeleteTermUseCase deleteTermUseCase)
+    public TermsViewModel(IViewCollectionUseCase<Term> viewTermUseCase, IDeleteUseCase<Term> deleteTermUseCase)
     {
         this.viewTermUseCase = viewTermUseCase;
         this.deleteTermUseCase = deleteTermUseCase;

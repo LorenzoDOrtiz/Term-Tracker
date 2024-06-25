@@ -19,6 +19,8 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(EditTermPage), typeof(EditTermPage));
         Routing.RegisterRoute(nameof(TermCoursesPage), typeof(TermCoursesPage));
         Routing.RegisterRoute(nameof(AddCoursePage), typeof(AddCoursePage));
+        Routing.RegisterRoute(nameof(CourseDetailPage), typeof(CourseDetailPage));
+        Routing.RegisterRoute(nameof(EditCoursePage), typeof(EditCoursePage));
 
         // So I guess MAUI still doesn't support automatic databinding updates with the shell, so we'll have to do this manually 
         WeakReferenceMessenger.Default.Register<TermSavedMessage>(this, async (r, m) =>

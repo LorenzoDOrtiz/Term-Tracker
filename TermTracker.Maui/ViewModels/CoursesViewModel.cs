@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Views;
-using TermTracker.UseCases.Interfaces;
+using TermTracker.UseCases.UseCaseInterfaces;
 
 namespace TermTracker.Maui.ViewModels;
 
@@ -14,28 +14,28 @@ public partial class CoursesViewModel : ObservableObject
     public ObservableCollection<Course> courses;
 
     [ObservableProperty]
-    private Term currentTerm; // Add this property
+    private Term currentTerm;
 
-    private readonly IViewCoursesUseCase viewCoursesUseCase;
+    private readonly IViewCollectionUseCase<Course> viewCoursesUseCase;
+    private readonly IDeleteUseCase<Course> deleteCourseUseCase;
 
-    public CoursesViewModel(IViewCoursesUseCase viewCoursesUseCase)
+    public CoursesViewModel(IViewCollectionUseCase<Course> viewCoursesUseCase, IDeleteUseCase<Course> deleteCourseUseCase)
     {
         this.viewCoursesUseCase = viewCoursesUseCase;
+        this.deleteCourseUseCase = deleteCourseUseCase;
         this.Courses = new ObservableCollection<Course>();
 
     }
+
+    // Clearing the observable collection and then readding them wasn't seeming to update the UI
+    // when editing a course, but assigning Course to a new observable collection does...
     public async Task LoadCoursesAsync(int termId)
     {
-        this.Courses.Clear();
-
         var coursesList = await viewCoursesUseCase.ExecuteAsync(termId);
 
-        if (coursesList != null && coursesList.Count > 0)
+        if (coursesList != null)
         {
-            foreach (var course in coursesList)
-            {
-                this.Courses.Add(course);
-            }
+            Courses = new ObservableCollection<Course>(coursesList);
         }
     }
 
@@ -45,6 +45,31 @@ public partial class CoursesViewModel : ObservableObject
         var termId = this.CurrentTerm?.TermId ?? 0; // Get the current TermId
 
         await Shell.Current.GoToAsync($"{nameof(AddCoursePage)}?TermId={termId}");
-        Shell.Current.FlyoutIsPresented = false;
+    }
+
+    [RelayCommand]
+    public async Task GotoCourseEdit(int courseId)
+    {
+        await Shell.Current.GoToAsync($"{nameof(EditCoursePage)}?Id={courseId}");
+    }
+
+    [RelayCommand]
+    public async Task DeleteCourse(int courseId)
+    {
+        var termId = this.CurrentTerm?.TermId ?? 0; // Get the current TermId
+
+        await deleteCourseUseCase.ExecuteAsync(courseId);
+        await LoadCoursesAsync(termId);
+    }
+
+    [RelayCommand]
+    public async Task GotoCourseDetails(Course course)
+    {
+        var queryParamater = new Dictionary<string, object>
+        {
+            {"Course", course }
+        };
+
+        await Shell.Current.GoToAsync(nameof(CourseDetailPage), queryParamater);
     }
 }
