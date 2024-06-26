@@ -31,8 +31,8 @@ public partial class AddCoursePage : ContentPage
 
         this.courseViewModel.Course = new Course
         {
-            CourseStartDate = DateTime.Now,
-            CourseEndDate = DateTime.Now.AddMonths(6),
+            StartDate = DateTime.Now,
+            EndDate = DateTime.Now.AddMonths(6),
             TermId = _termId
         };
     }

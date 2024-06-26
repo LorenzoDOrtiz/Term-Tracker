@@ -16,7 +16,7 @@ public partial class CourseDetailPage : ContentPage
         InitializeComponent();
         this.courseViewModel = courseViewModel;
 
-        this.BindingContext = courseViewModel;
+        this.BindingContext = this.courseViewModel;
     }
 
     public Course Course

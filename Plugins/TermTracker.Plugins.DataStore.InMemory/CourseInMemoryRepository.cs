@@ -9,15 +9,24 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
     {
         _courses = new List<Course>()
         {
-            new Course {TermId = 1, CourseId = 1, CourseName = "Introduction to Computer Science", CourseStartDate = DateTime.Now, CourseEndDate = DateTime.Now.AddMonths(1)},
-            new Course {TermId = 1, CourseId = 2, CourseName = "Data Structures and Algorithms", CourseStartDate = DateTime.Now.AddMonths(1), CourseEndDate = DateTime.Now.AddMonths(2)},
-            new Course {TermId = 1, CourseId = 3, CourseName = "Object-Oriented Programming in C#", CourseStartDate = DateTime.Now.AddMonths(2), CourseEndDate = DateTime.Now.AddMonths(3)},
-            new Course {TermId = 1, CourseId = 4, CourseName = "Web Development with ASP.NET Core", CourseStartDate = DateTime.Now.AddMonths(3), CourseEndDate = DateTime.Now.AddMonths(4)},
-            new Course {TermId = 1, CourseId = 5, CourseName = "Database Design and SQL Fundamentals", CourseStartDate = DateTime.Now.AddMonths(4), CourseEndDate = DateTime.Now.AddMonths(5)},
-            new Course {TermId = 2, CourseId = 6, CourseName = "Advanced Object-Oriented Programming in C#", CourseStartDate = DateTime.Now.AddMonths(5), CourseEndDate = DateTime.Now.AddMonths(6)}
-
+            new Course
+        {
+            TermId = 1,
+            Id = 1,
+            Name = "Introduction to Computer Science",
+            StartDate = DateTime.Now,
+            EndDate = DateTime.Now.AddMonths(1),
+            Status = "In Progress",
+            Notes = "This is a foundational course for computer science students.",
+            Description = "This course is designed to provide students with a foundational understanding of computer science principles and practices. Throughout the course, students will explore the basics of programming, algorithms, data structures, computer systems, and software development.",
+            Instructor = new Instructor
+            {
+                Name = "Dr. John Doe",
+                PhoneNumber =  "12345678",
+                Email = "JohnDoe@gmail.com"
+            }
+        }
         };
-
     }
 
     public Task<List<Course>> GetAllAsync(int termId)
@@ -28,48 +37,59 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
 
     public Task AddAsync(Course course)
     {
-        var maxId = _courses.Max(x => x.CourseId);
-        course.CourseId = maxId + 1;
+        var maxId = _courses.Max(x => x.Id);
+        course.Id = maxId + 1;
         _courses.Add(course);
 
         return Task.CompletedTask;
     }
+
     public Task<Course> GetByIdAsync(int courseId)
     {
-        var course = _courses.FirstOrDefault(x => x.CourseId == courseId);
+        var course = _courses.FirstOrDefault(x => x.Id == courseId);
         if (course != null)
         {
             return Task.FromResult(new Course
             {
-                CourseId = courseId,
+                Id = courseId,
                 TermId = course.TermId,
-                CourseName = course.CourseName,
-                CourseStartDate = course.CourseStartDate,
-                CourseEndDate = course.CourseEndDate
+                Name = course.Name,
+                StartDate = course.StartDate,
+                EndDate = course.EndDate,
+                Status = course.Status,
+                Notes = course.Notes,
+                Description = course.Description,
+                Instructor = course.Instructor
+
             });
         }
+
         return Task.FromResult<Course>(null);
     }
 
     public Task UpdateAsync(int courseId, Course course)
     {
-        if (courseId != course.CourseId) return Task.CompletedTask;
+        if (courseId != course.Id) return Task.CompletedTask;
 
-        var courseToUpdate = _courses.FirstOrDefault(x => x.CourseId == courseId);
+        var courseToUpdate = _courses.FirstOrDefault(x => x.Id == courseId);
         if (courseToUpdate != null)
         {
-            courseToUpdate.CourseId = courseId;
+            courseToUpdate.Id = courseId;
             courseToUpdate.TermId = course.TermId;
-            courseToUpdate.CourseName = course.CourseName;
-            courseToUpdate.CourseStartDate = course.CourseStartDate;
-            courseToUpdate.CourseEndDate = course.CourseEndDate;
+            courseToUpdate.Name = course.Name;
+            courseToUpdate.StartDate = course.StartDate;
+            courseToUpdate.EndDate = course.EndDate;
+            courseToUpdate.Status = course.Status;
+            courseToUpdate.Notes = course.Notes;
+            courseToUpdate.Description = course.Description;
+            courseToUpdate.Instructor = course.Instructor;
         }
 
         return Task.CompletedTask;
     }
     public Task DeleteAsync(int courseId)
     {
-        var course = _courses.FirstOrDefault(x => x.CourseId == courseId);
+        var course = _courses.FirstOrDefault(x => x.Id == courseId);
         if (course != null)
         {
             _courses.Remove(course);

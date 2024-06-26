@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:TermTracker.Maui.Views.Controls"
              x:DataType="vm:CourseViewModel"
              x:Class="TermTracker.Maui.Views.EditCoursePage"
-             Title="EditCoursePage">
+             Title="Edit Course">
     <controls:CourseControl
     IsForEdit="True"
     BindingContext="{Binding .}">
