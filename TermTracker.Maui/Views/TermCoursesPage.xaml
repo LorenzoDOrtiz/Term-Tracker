@@ -15,22 +15,7 @@
                     ItemsSource="{Binding Courses}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Course">
-                        <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
-                        <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Delete"
-                                               IsDestructive="True"
-                                               BackgroundColor="Red"
-                                               Command="{Binding Source={x:Reference CoursesCollection}, Path=BindingContext.DeleteCourseCommand}"
-                                               CommandParameter="{Binding Id}" />
-                                    <SwipeItem Text="Edit"
-                                               IsDestructive="False"
-                                               BackgroundColor="Green"
-                                               Command="{Binding Source={x:Reference CoursesCollection}, Path=BindingContext.GotoCourseEditCommand}"
-                                               CommandParameter="{Binding Id}" />
-                                </SwipeItems>
-                            </SwipeView.RightItems>
-                            <Frame Margin="15, 8">
+                        <Frame Margin="15, 8">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoursesViewModel}}, Path=GotoCourseDetailsCommand}"
                                                           CommandParameter="{Binding .}"/>
@@ -66,7 +51,6 @@
                                                VerticalOptions="Center" />
                                 </Grid>
                             </Frame>
-                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

@@ -3,32 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TermTracker.Maui.Views.CourseDetailPage"
              xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+             xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
+             xmlns:control="clr-namespace:TermTracker.Maui.Views.Controls"
              x:DataType="vm:CourseViewModel" >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit Course" 
+                     Order="Secondary" 
+                     Command="{Binding GotoCourseEditCommand}" 
+                     CommandParameter="{Binding Course.Id}"/>
+
+        <ToolbarItem Text="Delete Course" 
+                     Order="Secondary" 
+                     Command="{Binding DeleteCourseCommand}" 
+                     CommandParameter="{Binding Course.Id}"/>
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <VerticalStackLayout >
             <Grid RowSpacing="30" Margin="20, 0, 20, 0">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Label   Text="{Binding Course.Name}"
-                         FontSize="18"
-                         FontAttributes="Bold"
-                         Grid.Row="0"
-                         Grid.RowSpan="2"
-                         Grid.Column="0" />
+                <Label Text="{Binding Course.Name}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+
+                <ImageButton Source="alertbell.png"
+                             WidthRequest="30"
+                             HeightRequest="30"
+                             Command="{Binding GotoCourseAlertsCommand}"
+                             CommandParameter="{Binding Course.Id}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Grid.Row="0"
+                             Grid.Column="2" />
 
                 <Label Grid.Row="1"
                        Grid.Column="0" 
-                       HorizontalOptions="Start" >
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start">
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{Binding Course.StartDate, StringFormat='{0:MM/dd/yyyy}'}" />
@@ -41,14 +65,18 @@
                 <Label Text="{Binding Course.Status}"
                        Grid.Row="1"
                        Grid.Column="1"
-                       HorizontalOptions="StartAndExpand">
-                </Label>
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start" />
 
-                <Label Text="░░"
-                       Grid.Row="1"
-                       Grid.Column="2"
-                       HorizontalOptions="Center"/>
+                <ImageButton Source="notes.png"
+                             WidthRequest="30"
+                             HeightRequest="30"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Grid.Row="1"
+                             Grid.Column="2" />
             </Grid>
+
 
             <BoxView HeightRequest="1"
                      Color="Black"
@@ -86,17 +114,20 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="2"/>
 
-                <Label Text="░░"
+                <Image Source="person.png"
+                       WidthRequest="30"
                        Grid.Row="1"
                        Grid.Column="0"
                        HorizontalOptions="Start" />
 
-                <Label Text="░░"
+                <Image Source="phone.png"
+                       WidthRequest="30"
                        Grid.Row="2"
                        Grid.Column="0"
                        HorizontalOptions="Start" />
 
-                <Label Text="░░"
+                <Image Source="email.png"
+                       WidthRequest="30"
                        Grid.Row="3"
                        Grid.Column="0"
                        HorizontalOptions="Start" />
@@ -104,18 +135,76 @@
                 <Label Text="{Binding Course.Instructor.Name}"
                        Grid.Row="1"
                        Grid.Column="1"
-                       HorizontalOptions="Start" />
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
 
                 <Label Text="{Binding Course.Instructor.PhoneNumber}"
                        Grid.Row="2"
                        Grid.Column="1"
-                       HorizontalOptions="Start" />
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
 
                 <Label Text="{Binding Course.Instructor.Email}"
                        Grid.Row="3"
                        Grid.Column="1"
-                       HorizontalOptions="Start" />
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
             </Grid>
+
+            <BoxView HeightRequest="1"
+                     Color="Black"
+                     VerticalOptions="Center"
+                     HorizontalOptions="FillAndExpand" />
+
+            <VerticalStackLayout Margin="20, 10, 20, 30">
+
+                <Label Text="Assessments" 
+                   FontSize="18"
+                   FontAttributes="Bold" />
+
+                <CollectionView ItemsSource="{Binding Course.Assessments}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Assessment">
+                            <Frame Margin="0, 10, 0, 0">
+                                <Grid RowSpacing="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Text="{Binding Name}"
+                                           FontSize="16"
+                                           FontAttributes="Bold" />
+
+                                    <ImageButton Source="alertbell.png"
+                                                 WidthRequest="30"
+                                                 HeightRequest="30"
+                                                 HorizontalOptions="End"
+                                                 VerticalOptions="Center"
+                                                 Grid.Column="1" />
+                                    
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0" 
+                                           HorizontalOptions="Start" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                                <Span Text=" - " />
+                                                <Span Text="{Binding EndDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate> 
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

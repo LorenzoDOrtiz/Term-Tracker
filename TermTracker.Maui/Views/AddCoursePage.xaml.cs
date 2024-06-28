@@ -14,7 +14,7 @@ public partial class AddCoursePage : ContentPage
     {
         InitializeComponent();
         this.courseViewModel = courseViewModel;
-        this.BindingContext = courseViewModel;
+        this.BindingContext = this.courseViewModel;
     }
     public int TermId
     {
@@ -33,7 +33,7 @@ public partial class AddCoursePage : ContentPage
         {
             StartDate = DateTime.Now,
             EndDate = DateTime.Now.AddMonths(6),
-            TermId = _termId
+            TermId = _termId,
         };
     }
 }

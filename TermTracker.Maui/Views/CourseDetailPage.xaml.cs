@@ -29,4 +29,9 @@ public partial class CourseDetailPage : ContentPage
             OnPropertyChanged(nameof(Course));
         }
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await this.courseViewModel.LoadCourse(Course.Id);
+    }
 }

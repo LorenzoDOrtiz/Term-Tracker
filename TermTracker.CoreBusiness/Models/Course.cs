@@ -1,4 +1,7 @@
-﻿namespace TermTracker.CoreBusiness.Models;
+﻿using System.Collections.ObjectModel;
+using static TermTracker.CoreBusiness.Models.Alert;
+
+namespace TermTracker.CoreBusiness.Models;
 public class Course
 {
     public int TermId { get; set; }
@@ -9,5 +12,9 @@ public class Course
     public string Status { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public Instructor? Instructor { get; set; }
+    public Instructor? Instructor { get; set; } = new Instructor();
+    public ObservableCollection<Assessment>? Assessments { get; set; } = new ObservableCollection<Assessment>();
+    public ObservableCollection<StartDateAlert> StartDateAlerts { get; set; } = new ObservableCollection<StartDateAlert>();
+    public ObservableCollection<EndDateAlert> EndDateAlerts { get; set; } = new ObservableCollection<EndDateAlert>();
+
 }

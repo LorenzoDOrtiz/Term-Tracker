@@ -1,4 +1,5 @@
-﻿using TermTracker.CoreBusiness.Models;
+﻿using System.Collections.ObjectModel;
+using TermTracker.CoreBusiness.Models;
 using TermTracker.UseCases.PluginInterfaces;
 
 namespace TermTracker.Plugins.DataStore.InMemory;
@@ -10,22 +11,37 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
         _courses = new List<Course>()
         {
             new Course
-        {
-            TermId = 1,
-            Id = 1,
-            Name = "Introduction to Computer Science",
-            StartDate = DateTime.Now,
-            EndDate = DateTime.Now.AddMonths(1),
-            Status = "In Progress",
-            Notes = "This is a foundational course for computer science students.",
-            Description = "This course is designed to provide students with a foundational understanding of computer science principles and practices. Throughout the course, students will explore the basics of programming, algorithms, data structures, computer systems, and software development.",
-            Instructor = new Instructor
             {
-                Name = "Dr. John Doe",
-                PhoneNumber =  "12345678",
-                Email = "JohnDoe@gmail.com"
+                TermId = 1,
+                Id = 1,
+                Name = "Introduction to Computer Science",
+                StartDate = DateTime.Now.AddMinutes(2),
+                EndDate = DateTime.Now.AddMinutes(3),
+                Status = "In Progress",
+                Notes = "This is a foundational course for computer science students.",
+                Description = "This course is designed to provide students with a foundational understanding of computer science principles and practices. Throughout the course, students will explore the basics of programming, algorithms, data structures, computer systems, and software development.",
+                Instructor = new Instructor
+                {
+                    Name = "Dr. John Doe",
+                    PhoneNumber = "12345678",
+                    Email = "JohnDoe@gmail.com"
+                },
+                Assessments = new ObservableCollection<Assessment>
+                {
+                    new ObjectiveAssessment
+                    {
+                        Name = "Objective Assessment",
+                        StartDate = DateTime.Now.AddDays(7),
+                        EndDate = DateTime.Now.AddDays(8),
+                    },
+                    new PerformanceAssessment
+                    {
+                        Name = "Performance Assessment",
+                        StartDate = DateTime.Now.AddDays(7),
+                        EndDate = DateTime.Now.AddDays(8),
+                    },
+                },
             }
-        }
         };
     }
 
@@ -59,8 +75,10 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
                 Status = course.Status,
                 Notes = course.Notes,
                 Description = course.Description,
-                Instructor = course.Instructor
-
+                Instructor = course.Instructor,
+                Assessments = course.Assessments,
+                StartDateAlerts = course.StartDateAlerts,
+                EndDateAlerts = course.EndDateAlerts
             });
         }
 
@@ -83,10 +101,14 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
             courseToUpdate.Notes = course.Notes;
             courseToUpdate.Description = course.Description;
             courseToUpdate.Instructor = course.Instructor;
+            courseToUpdate.Assessments = course.Assessments;
+            courseToUpdate.StartDateAlerts = course.StartDateAlerts;
+            courseToUpdate.EndDateAlerts = course.EndDateAlerts;
         }
 
         return Task.CompletedTask;
     }
+
     public Task DeleteAsync(int courseId)
     {
         var course = _courses.FirstOrDefault(x => x.Id == courseId);

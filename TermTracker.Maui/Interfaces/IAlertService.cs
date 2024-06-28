@@ -1,12 +1,7 @@
-﻿using CommunityToolkit.Maui.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TermTracker.Maui.Interfaces;
+﻿namespace TermTracker.Maui.Interfaces;
 public interface IAlertService
 {
     Task ShowToast(string text);
+    Task ScheduleLocalNotification(DateTime alertTypeDate, int alertId, string title, string description, double notifyDays);
+    public bool CancelLocalNotification(int alertId);
 }

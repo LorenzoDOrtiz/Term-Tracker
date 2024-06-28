@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Interfaces;
 using TermTracker.Maui.Services;
@@ -19,12 +20,14 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseLocalNotification()
+            .UseMauiCommunityToolkit()
+
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
@@ -59,9 +62,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<AddCoursePage>();
         builder.Services.AddSingleton<CourseDetailPage>();
         builder.Services.AddSingleton<EditCoursePage>();
-
-
-
+        builder.Services.AddSingleton<CourseAlertPage>();
 
         // ViewModels
         builder.Services.AddSingleton<TermsViewModel>();

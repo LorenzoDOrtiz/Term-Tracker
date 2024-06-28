@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:TermTracker.Maui.Views.Controls"
              xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+             xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
              x:Class="TermTracker.Maui.Views.Controls.CourseControl"
              x:DataType="vm:CourseViewModel">
     <ScrollView>
@@ -32,7 +33,7 @@
 
             <Label Text="Description" 
                    FontAttributes="Bold"/>
-            
+
             <Editor Text="{Binding Course.Description}"
                     AutoSize="TextChanges"/>
 
@@ -53,6 +54,51 @@
             <Entry Text="{Binding Course.Instructor.Email}"
                    Keyboard="Email" />
 
+            <Label Text="Assessments" 
+                   FontAttributes="Bold" />
+
+            <CollectionView ItemsSource="{Binding Course.Assessments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Assessment">
+                        <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                <Label Text="Start Date" />
+                                <DatePicker Date="{Binding StartDate}" />
+                                <Label Text="End Date" />
+                                <DatePicker Date="{Binding EndDate}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <BoxView Color="LightGray"
+                         BackgroundColor="Transparent"
+                         HeightRequest="30"
+                         WidthRequest="30"
+                         CornerRadius="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center" />
+
+                <Button Text="+"
+                         TextColor="Black"
+                         FontAttributes="Bold"
+                         FontSize="20"
+                         BackgroundColor="Transparent"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Command="{Binding AddAssessmentCommand}" />    
+            </Grid>
+            
             <Button x:Name="btnSave" Text="Save" />
         </VerticalStackLayout>
     </ScrollView>

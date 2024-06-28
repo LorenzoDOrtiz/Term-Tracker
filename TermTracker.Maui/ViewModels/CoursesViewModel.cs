@@ -17,12 +17,10 @@ public partial class CoursesViewModel : ObservableObject
     private Term currentTerm;
 
     private readonly IViewCollectionUseCase<Course> viewCoursesUseCase;
-    private readonly IDeleteUseCase<Course> deleteCourseUseCase;
 
-    public CoursesViewModel(IViewCollectionUseCase<Course> viewCoursesUseCase, IDeleteUseCase<Course> deleteCourseUseCase)
+    public CoursesViewModel(IViewCollectionUseCase<Course> viewCoursesUseCase)
     {
         this.viewCoursesUseCase = viewCoursesUseCase;
-        this.deleteCourseUseCase = deleteCourseUseCase;
         this.Courses = new ObservableCollection<Course>();
 
     }
@@ -48,21 +46,6 @@ public partial class CoursesViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public async Task GotoCourseEdit(int courseId)
-    {
-        await Shell.Current.GoToAsync($"{nameof(EditCoursePage)}?Id={courseId}");
-    }
-
-    [RelayCommand]
-    public async Task DeleteCourse(int courseId)
-    {
-        var termId = this.CurrentTerm?.TermId ?? 0; // Get the current TermId
-
-        await deleteCourseUseCase.ExecuteAsync(courseId);
-        await LoadCoursesAsync(termId);
-    }
-
-    [RelayCommand]
     public async Task GotoCourseDetails(Course course)
     {
         var queryParamater = new Dictionary<string, object>
@@ -70,6 +53,6 @@ public partial class CoursesViewModel : ObservableObject
             {"Course", course }
         };
 
-        await Shell.Current.GoToAsync(nameof(CourseDetailPage), queryParamater);
+        await Shell.Current.GoToAsync(nameof(CourseDetailPage), true, queryParamater);
     }
 }
