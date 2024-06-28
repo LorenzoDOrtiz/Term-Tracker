@@ -25,12 +25,6 @@
                     ItemsSource="{Binding Statuses}"
                     SelectedItem="{Binding Course.Status}" />
 
-            <Label Text="Notes"
-                   FontAttributes="Bold"/>
-
-            <Editor Text="{Binding Course.Notes}"
-                    AutoSize="TextChanges" />
-
             <Label Text="Description" 
                    FontAttributes="Bold"/>
 

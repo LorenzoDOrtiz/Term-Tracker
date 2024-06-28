@@ -74,6 +74,12 @@ public partial class CourseViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async Task GotoCourseNotes()
+    {
+        await Shell.Current.GoToAsync($"{nameof(CourseNotesPage)}");
+    }
+
+    [RelayCommand]
     public void AddCourseStartDateAlert(int courseId)
     {
         int id = 0;
@@ -202,6 +208,30 @@ public partial class CourseViewModel : ObservableObject
             var existingAlert = Course.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
             Course.EndDateAlerts.Remove(existingAlert);
             alertService.CancelLocalNotification(alertId);
+        }
+    }
+
+    [RelayCommand]
+    public async Task UpdateNotes(Course course)
+    {
+        if (course != null)
+        {
+            await editCourseUseCase.ExecuteAsync(course.Id, course);
+            await alertService.ShowToast("Course notes saved.");
+        }
+    }
+
+    [RelayCommand]
+    public async Task ShareNotes(Course course)
+    {
+        if (course != null)
+        {
+            await Share.Default.RequestAsync(new ShareTextRequest
+            {
+                Text = course.Notes,
+                Title = "Share Course Notes",
+                Subject = $"{course.Name} Notes"
+            });
         }
     }
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+             x:DataType="vm:CourseViewModel"
+             x:Class="TermTracker.Maui.Views.CourseNotesPage"
+             Title="Course Notes">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Share" Order="Secondary" Command="{Binding ShareNotesCommand}" CommandParameter="{Binding Course}"/>
+    </ContentPage.ToolbarItems>
+    <VerticalStackLayout Margin="20" Spacing="10">
+        <Editor Text="{Binding Course.Notes}"
+                AutoSize="TextChanges" />
+        <Button Text="Save" Command="{Binding UpdateNotesCommand}" CommandParameter="{Binding Course}"/>
+    </VerticalStackLayout>
+</ContentPage>

@@ -69,12 +69,13 @@
                        HorizontalOptions="Start" />
 
                 <ImageButton Source="notes.png"
-                             WidthRequest="30"
-                             HeightRequest="30"
+                             WidthRequest="26"
+                             HeightRequest="26"
                              HorizontalOptions="Center"
                              VerticalOptions="Center"
                              Grid.Row="1"
-                             Grid.Column="2" />
+                             Grid.Column="2"
+                             Command="{Binding GotoCourseNotesCommand}" />
             </Grid>
 
 
