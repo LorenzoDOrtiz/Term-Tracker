@@ -163,7 +163,7 @@
                    FontSize="18"
                    FontAttributes="Bold" />
 
-                <CollectionView ItemsSource="{Binding Course.Assessments}">
+                <CollectionView ItemsSource="{Binding Course.Assessments}" CanReorderItems="True"  >
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Assessment">
                             <Frame Margin="0, 10, 0, 0">

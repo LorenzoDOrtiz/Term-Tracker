@@ -177,15 +177,15 @@ public partial class CourseViewModel : ObservableObject
         // Convert alert.ReminderUnit to appropriate seconds
         switch (alert.ReminderUnit)
         {
-            case "seconds":
+            case "second(s)":
                 return alert.ReminderValue;
-            case "minutes":
+            case "minute(s)":
                 return alert.ReminderValue * 60;
-            case "hours":
+            case "hour(s)":
                 return alert.ReminderValue * 60 * 60;
-            case "days":
+            case "day(s)":
                 return alert.ReminderValue * 24 * 60 * 60;
-            case "weeks":
+            case "week(s)":
                 return alert.ReminderValue * 7 * 24 * 60 * 60;
             default:
                 return 0;
@@ -195,19 +195,17 @@ public partial class CourseViewModel : ObservableObject
     [RelayCommand]
     public void DeleteAlert(Alert alert)
     {
-        var alertId = alert.Id;
-
         if (alert is StartDateAlert)
         {
             var existingAlert = Course.StartDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
             Course.StartDateAlerts.Remove(existingAlert);
-            alertService.CancelLocalNotification(alertId);
+            alertService.CancelLocalNotification(alert.Id);
         }
         if (alert is EndDateAlert)
         {
             var existingAlert = Course.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
             Course.EndDateAlerts.Remove(existingAlert);
-            alertService.CancelLocalNotification(alertId);
+            alertService.CancelLocalNotification(alert.Id);
         }
     }
 
@@ -296,5 +294,12 @@ public partial class CourseViewModel : ObservableObject
             var newAssessment = new PerformanceAssessment { Name = "Performance Assessment" };
             Course.Assessments.Add(newAssessment);
         }
+    }
+
+    [RelayCommand]
+    public void DeleteAssessment(Assessment assessment)
+    {
+        var existingAssessment = Course.Assessments.FirstOrDefault(a => a.Id == assessment.Id);
+        Course.Assessments.Remove(existingAssessment);
     }
 }

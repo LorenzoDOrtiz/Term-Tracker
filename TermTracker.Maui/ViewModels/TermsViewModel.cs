@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using TermTracker.CoreBusiness.Models;
 using TermTracker.Maui.Views;
 using TermTracker.UseCases.UseCaseInterfaces;
+using static TermTracker.Maui.ViewModels.TermViewModel;
 //using static TermTracker.Maui.ViewModels.TermViewModel;
 
 namespace TermTracker.Maui.ViewModels;
@@ -20,11 +22,17 @@ public partial class TermsViewModel : ObservableObject
         this.viewTermUseCase = viewTermUseCase;
         this.deleteTermUseCase = deleteTermUseCase;
         this.Terms = new ObservableCollection<Term>();
+
+        // So I guess MAUI still doesn't support automatic databinding updates with the shell, so we'll have to do this manually 
+        WeakReferenceMessenger.Default.Register<TermSavedMessage>(this, async (r, m) =>
+        {
+            await LoadTermsAsync();
+        });
     }
 
     public async Task LoadTermsAsync()
     {
-        this.Terms.Clear();
+        this.Terms = new ObservableCollection<Term>();
 
         var Terms = await viewTermUseCase.ExecuteAsync();
 

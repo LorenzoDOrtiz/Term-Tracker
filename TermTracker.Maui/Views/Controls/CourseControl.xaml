@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:TermTracker.Maui.Views.Controls"
              xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
              xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="TermTracker.Maui.Views.Controls.CourseControl"
              x:DataType="vm:CourseViewModel">
     <ScrollView>
@@ -54,15 +55,40 @@
             <CollectionView ItemsSource="{Binding Course.Assessments}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Assessment">
-                        <Frame Padding="10" Margin="5" BorderColor="LightGray">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name}" FontAttributes="Bold" />
-                                <Label Text="Start Date" />
-                                <DatePicker Date="{Binding StartDate}" />
-                                <Label Text="End Date" />
-                                <DatePicker Date="{Binding EndDate}" />
-                            </VerticalStackLayout>
+                        <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                               IsDestructive="True"
+                                               BackgroundColor="Red"
+                                               Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CourseViewModel}}, Path=DeleteAssessmentCommand}"
+                                               CommandParameter="{Binding .}" />
+                                    
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame Padding="10" Margin="0, 5" BorderColor="LightGray">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Text="{Binding Name}" FontAttributes="Bold" Grid.ColumnSpan="2"/>
+                                
+                                <Label Text="Start Date" Grid.Row="1"/>
+                                <DatePicker Date="{Binding StartDate}" Grid.Row="2" />
+                                
+                                <Label Text="End Date" Grid.Row="1" Grid.Column="1"/>
+                                <DatePicker Date="{Binding EndDate}" Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
                         </Frame>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

@@ -16,11 +16,11 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Course">
                         <Frame Margin="15, 8">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoursesViewModel}}, Path=GotoCourseDetailsCommand}"
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoursesViewModel}}, Path=GotoCourseDetailsCommand}"
                                                           CommandParameter="{Binding .}"/>
-                                </Frame.GestureRecognizers>
-                                <Grid RowSpacing="10">
+                            </Frame.GestureRecognizers>
+                            <Grid RowSpacing="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
