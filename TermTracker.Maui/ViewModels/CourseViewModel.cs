@@ -22,6 +22,9 @@ public partial class CourseViewModel : ObservableObject
         set => SetProperty(ref _currentAssessment, value);
     }
 
+    [ObservableProperty]
+    private bool isEmailValid;
+
     private readonly IAddUseCase<Course> addCourseUseCase;
     private readonly IViewUseCase<Course> viewCourseUseCase;
     private readonly IEditUseCase<Course> editCourseUseCase;
@@ -251,17 +254,23 @@ public partial class CourseViewModel : ObservableObject
 
     public async Task<bool> IsValidCourse()
     {
-
         if (string.IsNullOrEmpty(this.Course.Name))
         {
-            string message = "Course name can not be empty.";
+            string message = "Course name cannot be empty.";
             await this.alertService.ShowToast(message);
             return false;
         }
 
         if (Course.StartDate.Date > Course.EndDate.Date)
         {
-            string message = "Course start date can not be after course end date.";
+            string message = "Course start date cannot be after course end date.";
+            await this.alertService.ShowToast(message);
+            return false;
+        }
+
+        if (!IsEmailValid)
+        {
+            string message = "Invalid email address.";
             await this.alertService.ShowToast(message);
             return false;
         }
@@ -277,12 +286,12 @@ public partial class CourseViewModel : ObservableObject
 
         if (result == "Objective Assessment")
         {
-            var newAssessment = new ObjectiveAssessment { Id = id, Name = "Objective Assessment" };
+            var newAssessment = new ObjectiveAssessment { CourseId = Course.Id, Id = id, Name = "Objective Assessment" };
             Course.Assessments.Add(newAssessment);
         }
         else if (result == "Performance Assessment")
         {
-            var newAssessment = new PerformanceAssessment { Name = "Performance Assessment" };
+            var newAssessment = new PerformanceAssessment { CourseId = Course.Id, Id = id, Name = "Performance Assessment" };
             Course.Assessments.Add(newAssessment);
         }
     }
@@ -300,9 +309,11 @@ public partial class CourseViewModel : ObservableObject
         if (assessment != null)
         {
             CurrentAssessment = assessment;
-            await Shell.Current.GoToAsync($"{nameof(AssessmentAlertPage)}");
+            var assessmentType = assessment is ObjectiveAssessment ? "Objective" : "Performance";
+            await Shell.Current.GoToAsync($"{nameof(AssessmentAlertPage)}?assessmentType={assessmentType}");
         }
     }
+
 
     [RelayCommand]
     public void AddAssessmentStartDateAlert()

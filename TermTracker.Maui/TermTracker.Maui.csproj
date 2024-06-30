@@ -20,7 +20,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>TermTracker.Maui</ApplicationTitle>
+		<ApplicationTitle>Term Tracker</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.termtracker</ApplicationId>
