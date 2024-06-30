@@ -21,8 +21,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(EditCoursePage), typeof(EditCoursePage));
         Routing.RegisterRoute(nameof(CourseAlertPage), typeof(CourseAlertPage));
         Routing.RegisterRoute(nameof(CourseNotesPage), typeof(CourseNotesPage));
-
-
+        Routing.RegisterRoute(nameof(AssessmentAlertPage), typeof(AssessmentAlertPage));
     }
 
     protected override async void OnAppearing()

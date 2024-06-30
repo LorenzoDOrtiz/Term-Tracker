@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+             xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
+             x:DataType="vm:CourseViewModel"
+             x:Class="TermTracker.Maui.Views.AssessmentAlertPage" >
+    <VerticalStackLayout Margin="10" Spacing="10">
+        <Frame>
+            <VerticalStackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Start Date Alerts" VerticalOptions="Center"/>
+
+                    <Grid Grid.Row="0" Grid.Column="1" HorizontalOptions="End">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView Color="LightGray"
+                         BackgroundColor="Transparent"
+                         HeightRequest="25"
+                         WidthRequest="25"
+                         CornerRadius="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center" />
+
+                        <Button Text="+"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        BackgroundColor="Transparent"  
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"     
+                        Command="{Binding AddAssessmentStartDateAlertCommand}" />
+                    </Grid>
+
+                    <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentAssessment.StartDateAlerts}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:StartDateAlert">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry Grid.Column="0" Text="{Binding ReminderValue}" />
+                                    <Picker Title="Unit"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding ReminderUnits}"
+                                    SelectedItem="{Binding ReminderUnit}"
+                                    ItemDisplayBinding="{Binding .}" />
+                                    <Grid Grid.Row="0" Grid.Column="2" HorizontalOptions="End">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <BoxView Color="LightGray"
+                                         BackgroundColor="Transparent"
+                                         HeightRequest="20"
+                                         WidthRequest="20"
+                                         CornerRadius="20"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center" />
+
+                                        <Button Text="-"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        BackgroundColor="Transparent"  
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" 
+                                        Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CourseViewModel}}, Path=DeleteAssessmentAlertCommand}"
+                                        CommandParameter="{Binding .}"
+                                         />
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Frame>
+            <VerticalStackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="End Date Alerts" VerticalOptions="Center"/>
+
+                    <Grid Grid.Row="0" Grid.Column="1" HorizontalOptions="End">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView Color="LightGray"
+             BackgroundColor="Transparent"
+             HeightRequest="25"
+             WidthRequest="25"
+             CornerRadius="20"
+             HorizontalOptions="Center"
+             VerticalOptions="Center" />
+
+                        <Button Text="+"
+            TextColor="Black"
+            FontAttributes="Bold"
+            FontSize="22"
+            BackgroundColor="Transparent"  
+            HorizontalOptions="Center"
+            VerticalOptions="Center"     
+            Command="{Binding AddAssessmentEndDateAlertCommand}" />
+                    </Grid>
+
+                    <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentAssessment.EndDateAlerts}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:EndDateAlert">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry Grid.Column="0" Text="{Binding ReminderValue}" />
+                                    <Picker Title="Unit"
+                        Grid.Column="1"
+                        ItemsSource="{Binding ReminderUnits}"
+                        SelectedItem="{Binding ReminderUnit}"
+                        ItemDisplayBinding="{Binding .}" />
+                                    <Grid Grid.Row="0" Grid.Column="2" HorizontalOptions="End">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <BoxView Color="LightGray"
+                             BackgroundColor="Transparent"
+                             HeightRequest="20"
+                             WidthRequest="20"
+                             CornerRadius="20"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center" />
+
+                                        <Button Text="-"
+                            TextColor="Black"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            BackgroundColor="Transparent"  
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" 
+                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CourseViewModel}}, Path=DeleteAssessmentAlertCommand}"
+                            CommandParameter="{Binding .}" />
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Button x:Name="btnSave" Text="Save" Command="{Binding UpdateAssessmentAlertsAndScheduleNotificationsCommand}" />
+
+    </VerticalStackLayout>
+
+    
+</ContentPage>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using static TermTracker.CoreBusiness.Models.Alert;
 
 namespace TermTracker.CoreBusiness.Models;
 public class Course

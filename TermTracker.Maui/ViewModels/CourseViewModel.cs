@@ -15,8 +15,12 @@ public partial class CourseViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<string> statuses;
 
-    [ObservableProperty]
-    private string selectedStatus;
+    private Assessment _currentAssessment;
+    public Assessment CurrentAssessment
+    {
+        get => _currentAssessment;
+        set => SetProperty(ref _currentAssessment, value);
+    }
 
     private readonly IAddUseCase<Course> addCourseUseCase;
     private readonly IViewUseCase<Course> viewCourseUseCase;
@@ -82,13 +86,7 @@ public partial class CourseViewModel : ObservableObject
     [RelayCommand]
     public void AddCourseStartDateAlert(int courseId)
     {
-        int id = 0;
-
-        if (Course.StartDateAlerts.Any())
-        {
-            var maxId = Course.StartDateAlerts.Max(x => x.Id);
-            id = maxId + 1;
-        }
+        int id = Course.StartDateAlerts.Count + 1;
 
         var newAlert = new StartDateAlert { CourseId = courseId, Id = id };
         Course.StartDateAlerts.Add(newAlert);
@@ -97,13 +95,7 @@ public partial class CourseViewModel : ObservableObject
     [RelayCommand]
     public void AddCourseEndDateAlert(int courseId)
     {
-        int id = 1000;
-
-        if (Course.EndDateAlerts.Any())
-        {
-            var maxId = Course.EndDateAlerts.Max(x => x.Id);
-            id = maxId + 1;
-        }
+        int id = Course.EndDateAlerts.Count + 1;
 
         var newAlert = new EndDateAlert { CourseId = courseId, Id = id };
         Course.EndDateAlerts.Add(newAlert);
@@ -160,7 +152,6 @@ public partial class CourseViewModel : ObservableObject
             string description = $"{Course.Name} Starts in: {alert.ReminderValue} {alert.ReminderUnit}";
 
             await alertService.ScheduleLocalNotification(Course.StartDate, alert.Id, title, description, notifySeconds);
-
         }
 
         if (alert is EndDateAlert)
@@ -168,7 +159,6 @@ public partial class CourseViewModel : ObservableObject
             string description = $"{Course.Name} Ends in: {alert.ReminderValue} {alert.ReminderUnit}";
 
             await alertService.ScheduleLocalNotification(Course.EndDate, alert.Id, title, description, notifySeconds);
-
         }
     }
 
@@ -283,10 +273,11 @@ public partial class CourseViewModel : ObservableObject
     public async Task AddAssessment()
     {
         var result = await Application.Current.MainPage.DisplayActionSheet("Choose Assessment Type", "Cancel", null, "Objective Assessment", "Performance Assessment");
+        var id = Course.Assessments.Count + 1;
 
         if (result == "Objective Assessment")
         {
-            var newAssessment = new ObjectiveAssessment { Name = "Objective Assessment" };
+            var newAssessment = new ObjectiveAssessment { Id = id, Name = "Objective Assessment" };
             Course.Assessments.Add(newAssessment);
         }
         else if (result == "Performance Assessment")
@@ -301,5 +292,109 @@ public partial class CourseViewModel : ObservableObject
     {
         var existingAssessment = Course.Assessments.FirstOrDefault(a => a.Id == assessment.Id);
         Course.Assessments.Remove(existingAssessment);
+    }
+
+    [RelayCommand]
+    public async Task GotoAssessmentAlertPage(Assessment assessment)
+    {
+        if (assessment != null)
+        {
+            CurrentAssessment = assessment;
+            await Shell.Current.GoToAsync($"{nameof(AssessmentAlertPage)}");
+        }
+    }
+
+    [RelayCommand]
+    public void AddAssessmentStartDateAlert()
+    {
+        var id = CurrentAssessment.StartDateAlerts.Count + CurrentAssessment.EndDateAlerts.Count + 1;
+        var newAlert = new StartDateAlert { CourseId = CurrentAssessment.CourseId, Id = id };
+        CurrentAssessment.StartDateAlerts.Add(newAlert);
+    }
+
+    [RelayCommand]
+    public void AddAssessmentEndDateAlert()
+    {
+        var id = CurrentAssessment.StartDateAlerts.Count + CurrentAssessment.EndDateAlerts.Count + 1;
+        var newAlert = new EndDateAlert { CourseId = CurrentAssessment.CourseId, Id = id };
+        CurrentAssessment.EndDateAlerts.Add(newAlert);
+    }
+
+    [RelayCommand]
+    public async Task UpdateAssessmentAlertsAndScheduleNotifications()
+    {
+        foreach (var alert in CurrentAssessment.StartDateAlerts)
+        {
+            await UpdateAssessmentAlert(alert);
+            await ScheduleAssessmentNotification(alert);
+        }
+
+        foreach (var alert in CurrentAssessment.EndDateAlerts)
+        {
+            await UpdateAssessmentAlert(alert);
+            await ScheduleAssessmentNotification(alert);
+        }
+        await alertService.ShowToast("Alerts Saved.");
+    }
+
+    private async Task UpdateAssessmentAlert(Alert alert)
+    {
+        if (alert is StartDateAlert)
+        {
+            var existingAlert = CurrentAssessment.StartDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
+            if (existingAlert != null)
+            {
+                existingAlert.ReminderValue = alert.ReminderValue;
+                existingAlert.ReminderUnit = alert.ReminderUnit;
+            }
+        }
+        else if (alert is EndDateAlert)
+        {
+            var existingAlert = CurrentAssessment.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
+            if (existingAlert != null)
+            {
+                existingAlert.ReminderValue = alert.ReminderValue;
+                existingAlert.ReminderUnit = alert.ReminderUnit;
+            }
+        }
+    }
+
+    private async Task ScheduleAssessmentNotification(Alert alert)
+    {
+        string title = "Alert Notification";
+
+        // Determine notifyDays based on alert.ReminderUnit
+        double notifySeconds = CalculateNotifySeconds(alert);
+
+        if (alert is StartDateAlert)
+        {
+            string description = $"{Course.Name} {CurrentAssessment.Name} Starts in: {alert.ReminderValue} {alert.ReminderUnit}";
+
+            await alertService.ScheduleLocalNotification(CurrentAssessment.StartDate, alert.Id, title, description, notifySeconds);
+        }
+
+        if (alert is EndDateAlert)
+        {
+            string description = $"{Course.Name} {CurrentAssessment.Name} Ends in: {alert.ReminderValue} {alert.ReminderUnit}";
+
+            await alertService.ScheduleLocalNotification(CurrentAssessment.EndDate, alert.Id, title, description, notifySeconds);
+        }
+    }
+
+    [RelayCommand]
+    public void DeleteAssessmentAlert(Alert alert)
+    {
+        if (alert is StartDateAlert)
+        {
+            var existingAlert = CurrentAssessment.StartDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
+            CurrentAssessment.StartDateAlerts.Remove(existingAlert);
+            alertService.CancelLocalNotification(alert.Id);
+        }
+        if (alert is EndDateAlert)
+        {
+            var existingAlert = CurrentAssessment.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
+            CurrentAssessment.EndDateAlerts.Remove(existingAlert);
+            alertService.CancelLocalNotification(alert.Id);
+        }
     }
 }

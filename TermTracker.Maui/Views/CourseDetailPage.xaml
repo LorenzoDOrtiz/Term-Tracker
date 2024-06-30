@@ -186,7 +186,9 @@
                                                  HeightRequest="30"
                                                  HorizontalOptions="End"
                                                  VerticalOptions="Center"
-                                                 Grid.Column="1" />
+                                                 Grid.Column="1"
+                                                 Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CourseViewModel}}, Path=GotoAssessmentAlertPageCommand}"
+                                                 CommandParameter="{Binding .}"/>
                                     
                                     <Label Grid.Row="1"
                                            Grid.Column="0" 

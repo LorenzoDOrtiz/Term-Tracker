@@ -30,15 +30,19 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
                 {
                     new ObjectiveAssessment
                     {
+                        Id = 0,
+                        CourseId = 1,
                         Name = "Objective Assessment",
-                        StartDate = DateTime.Now.AddDays(7),
-                        EndDate = DateTime.Now.AddDays(8),
+                        StartDate = DateTime.Now.AddDays(1),
+                        EndDate = DateTime.Now.AddDays(2),
                     },
                     new PerformanceAssessment
                     {
+                        Id = 1,
+                        CourseId = 1,
                         Name = "Performance Assessment",
-                        StartDate = DateTime.Now.AddDays(7),
-                        EndDate = DateTime.Now.AddDays(8),
+                        StartDate = DateTime.Now.AddDays(1),
+                        EndDate = DateTime.Now.AddDays(2),
                     },
                 },
             }

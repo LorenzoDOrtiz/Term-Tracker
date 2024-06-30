@@ -9,7 +9,8 @@ namespace TermTracker.CoreBusiness.Models
         public string Name { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ObservableCollection<Alert> Alerts { get; set; } = new ObservableCollection<Alert>();
+        public ObservableCollection<StartDateAlert> StartDateAlerts { get; set; } = new ObservableCollection<StartDateAlert>();
+        public ObservableCollection<EndDateAlert> EndDateAlerts { get; set; } = new ObservableCollection<EndDateAlert>();
     }
 
     public class ObjectiveAssessment : Assessment

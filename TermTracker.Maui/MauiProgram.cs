@@ -64,6 +64,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<EditCoursePage>();
         builder.Services.AddSingleton<CourseAlertPage>();
         builder.Services.AddSingleton<CourseNotesPage>();
+        builder.Services.AddSingleton<AssessmentAlertPage>();
 
         // ViewModels
         builder.Services.AddSingleton<TermsViewModel>();

@@ -88,9 +88,6 @@
 	  <MauiXaml Update="Views\AlertPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Controls\AlertControl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\CourseControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
