@@ -24,7 +24,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                                </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -35,21 +35,25 @@
                                                FontAttributes="Bold"
                                                Grid.Row="0"
                                                Grid.ColumnSpan="2"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
-                                    <Label Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy - }'}"
-                                               FontSize="12"
-                                               Grid.Row="1"
-                                               Grid.Column="0"
-                                               HorizontalOptions="End"
-                                               VerticalOptions="Center" />
-                                    <Label Text="{Binding EndDate, StringFormat='{0:MM/dd/yyyy}'}"
-                                               FontSize="12"
-                                               Grid.Row="1"
-                                               Grid.Column="1"
                                                HorizontalOptions="Start"
                                                VerticalOptions="Center" />
-                                </Grid>
+                                <Label Grid.Row="1"
+                                       Grid.Column="0" 
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                            <Span Text=" - " />
+                                            <Span Text="{Binding EndDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Text="{Binding Status}" 
+                                       Grid.Row="1" Grid.Column="1" 
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center" />
+                            </Grid>
                             </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
