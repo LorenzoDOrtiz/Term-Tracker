@@ -8,7 +8,7 @@ public class AlertService : IAlertService
 {
     public async Task ShowToast(string text)
     {
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource cancellationTokenSource = new();
 
         ToastDuration duration = ToastDuration.Long;
         double fontSize = 14;
@@ -18,15 +18,12 @@ public class AlertService : IAlertService
         await toast.Show(cancellationTokenSource.Token);
     }
 
-    public async Task ScheduleLocalNotification(DateTime alertTypeDate, int alertId, string title, string description, double notifySeconds)
+    public async Task ScheduleLocalNotification(int alertId, string title, string description, DateTime targetNotifyTime)
     {
         if (await LocalNotificationCenter.Current.AreNotificationsEnabled() == false)
         {
             await LocalNotificationCenter.Current.RequestNotificationPermission();
         }
-
-        // Determine the target notify time as a DateTime
-        DateTime targetNotifyTime = alertTypeDate.AddSeconds(-notifySeconds);
 
         var notification = new NotificationRequest
         {
@@ -35,7 +32,7 @@ public class AlertService : IAlertService
             Description = description,
             Schedule = new NotificationRequestSchedule
             {
-                NotifyTime = targetNotifyTime.ToLocalTime()
+                NotifyTime = targetNotifyTime
             }
         };
 

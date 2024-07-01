@@ -43,7 +43,7 @@ public partial class CourseViewModel : ObservableObject
         this.viewCourseUseCase = viewCourseUseCase;
         this.alertService = alertService;
 
-        Statuses = new ObservableCollection<string>
+        Statuses = new()
         {
             "In Progress",
             "Completed",
@@ -89,18 +89,16 @@ public partial class CourseViewModel : ObservableObject
     [RelayCommand]
     public void AddCourseStartDateAlert(int courseId)
     {
-        int id = Course.StartDateAlerts.Count + 1;
-
-        var newAlert = new StartDateAlert { CourseId = courseId, Id = id };
+        var alertId = courseId + 100;
+        var newAlert = new StartDateAlert { CourseId = courseId, Id = alertId };
         Course.StartDateAlerts.Add(newAlert);
     }
 
     [RelayCommand]
     public void AddCourseEndDateAlert(int courseId)
     {
-        int id = Course.EndDateAlerts.Count + 1;
-
-        var newAlert = new EndDateAlert { CourseId = courseId, Id = id };
+        var alertId = courseId + 150;
+        var newAlert = new EndDateAlert { CourseId = courseId, Id = alertId };
         Course.EndDateAlerts.Add(newAlert);
     }
 
@@ -109,19 +107,19 @@ public partial class CourseViewModel : ObservableObject
     {
         foreach (var alert in Course.StartDateAlerts)
         {
-            await UpdateAlert(alert);
+            UpdateAlert(alert);
             await ScheduleNotification(alert);
         }
 
         foreach (var alert in Course.EndDateAlerts)
         {
-            await UpdateAlert(alert);
+            UpdateAlert(alert);
             await ScheduleNotification(alert);
         }
         await alertService.ShowToast("Alerts Saved.");
     }
 
-    private async Task UpdateAlert(Alert alert)
+    private void UpdateAlert(Alert alert)
     {
         if (alert is StartDateAlert)
         {
@@ -147,21 +145,24 @@ public partial class CourseViewModel : ObservableObject
     {
         string title = "Alert Notification";
 
-        // Determine notifyDays based on alert.ReminderUnit
         double notifySeconds = CalculateNotifySeconds(alert);
 
         if (alert is StartDateAlert)
         {
+            DateTime targetNotifyTime = Course.StartDate.AddSeconds(-notifySeconds);
+
             string description = $"{Course.Name} Starts in: {alert.ReminderValue} {alert.ReminderUnit}";
 
-            await alertService.ScheduleLocalNotification(Course.StartDate, alert.Id, title, description, notifySeconds);
+            await alertService.ScheduleLocalNotification(alert.Id, title, description, targetNotifyTime);
         }
 
         if (alert is EndDateAlert)
         {
+            DateTime targetNotifyTime = Course.EndDate.AddSeconds(-notifySeconds);
+
             string description = $"{Course.Name} Ends in: {alert.ReminderValue} {alert.ReminderUnit}";
 
-            await alertService.ScheduleLocalNotification(Course.EndDate, alert.Id, title, description, notifySeconds);
+            await alertService.ScheduleLocalNotification(alert.Id, title, description, targetNotifyTime);
         }
     }
 
@@ -192,13 +193,13 @@ public partial class CourseViewModel : ObservableObject
         {
             var existingAlert = Course.StartDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
             Course.StartDateAlerts.Remove(existingAlert);
-            alertService.CancelLocalNotification(alert.Id);
+            alertService.CancelLocalNotification(alert.Id.GetHashCode());
         }
         if (alert is EndDateAlert)
         {
             var existingAlert = Course.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
             Course.EndDateAlerts.Remove(existingAlert);
-            alertService.CancelLocalNotification(alert.Id);
+            alertService.CancelLocalNotification(alert.Id.GetHashCode());
         }
     }
 
@@ -229,8 +230,6 @@ public partial class CourseViewModel : ObservableObject
     [RelayCommand]
     public async Task DeleteCourse(int courseId)
     {
-        var termId = this.Course.TermId;
-
         bool answer = await Application.Current.MainPage.DisplayAlert("Delete Confirmation", "Are you sure you want to delete this course?", "Delete", "Cancel");
 
         if (answer)
@@ -286,12 +285,12 @@ public partial class CourseViewModel : ObservableObject
 
         if (result == "Objective Assessment")
         {
-            var newAssessment = new ObjectiveAssessment { CourseId = Course.Id, Id = id, Name = "Objective Assessment" };
+            var newAssessment = new Assessment { CourseId = Course.Id, Id = id, Type = "Objective Assessment" };
             Course.Assessments.Add(newAssessment);
         }
         else if (result == "Performance Assessment")
         {
-            var newAssessment = new PerformanceAssessment { CourseId = Course.Id, Id = id, Name = "Performance Assessment" };
+            var newAssessment = new Assessment { CourseId = Course.Id, Id = id, Type = "Performance Assessment" };
             Course.Assessments.Add(newAssessment);
         }
     }
@@ -308,88 +307,28 @@ public partial class CourseViewModel : ObservableObject
     {
         if (assessment != null)
         {
-            CurrentAssessment = assessment;
-            var assessmentType = assessment is ObjectiveAssessment ? "Objective" : "Performance";
-            await Shell.Current.GoToAsync($"{nameof(AssessmentAlertPage)}?assessmentType={assessmentType}");
+            var queryParameters = new Dictionary<string, object>
+                {
+                    { "Assessment", assessment }
+                };
+            await Shell.Current.GoToAsync($"{nameof(AssessmentAlertPage)}", true, queryParameters);
         }
     }
-
 
     [RelayCommand]
     public void AddAssessmentStartDateAlert()
     {
-        var id = CurrentAssessment.StartDateAlerts.Count + CurrentAssessment.EndDateAlerts.Count + 1;
-        var newAlert = new StartDateAlert { CourseId = CurrentAssessment.CourseId, Id = id };
+        var alertId = Course.Id + CurrentAssessment.Id * 2 + 200;
+        var newAlert = new StartDateAlert { CourseId = CurrentAssessment.CourseId, Id = alertId };
         CurrentAssessment.StartDateAlerts.Add(newAlert);
     }
 
     [RelayCommand]
     public void AddAssessmentEndDateAlert()
     {
-        var id = CurrentAssessment.StartDateAlerts.Count + CurrentAssessment.EndDateAlerts.Count + 1;
-        var newAlert = new EndDateAlert { CourseId = CurrentAssessment.CourseId, Id = id };
+        var alertId = Course.Id + CurrentAssessment.Id * 2 + 300;
+        var newAlert = new EndDateAlert { CourseId = CurrentAssessment.CourseId, Id = alertId };
         CurrentAssessment.EndDateAlerts.Add(newAlert);
-    }
-
-    [RelayCommand]
-    public async Task UpdateAssessmentAlertsAndScheduleNotifications()
-    {
-        foreach (var alert in CurrentAssessment.StartDateAlerts)
-        {
-            await UpdateAssessmentAlert(alert);
-            await ScheduleAssessmentNotification(alert);
-        }
-
-        foreach (var alert in CurrentAssessment.EndDateAlerts)
-        {
-            await UpdateAssessmentAlert(alert);
-            await ScheduleAssessmentNotification(alert);
-        }
-        await alertService.ShowToast("Alerts Saved.");
-    }
-
-    private async Task UpdateAssessmentAlert(Alert alert)
-    {
-        if (alert is StartDateAlert)
-        {
-            var existingAlert = CurrentAssessment.StartDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
-            if (existingAlert != null)
-            {
-                existingAlert.ReminderValue = alert.ReminderValue;
-                existingAlert.ReminderUnit = alert.ReminderUnit;
-            }
-        }
-        else if (alert is EndDateAlert)
-        {
-            var existingAlert = CurrentAssessment.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
-            if (existingAlert != null)
-            {
-                existingAlert.ReminderValue = alert.ReminderValue;
-                existingAlert.ReminderUnit = alert.ReminderUnit;
-            }
-        }
-    }
-
-    private async Task ScheduleAssessmentNotification(Alert alert)
-    {
-        string title = "Alert Notification";
-
-        // Determine notifyDays based on alert.ReminderUnit
-        double notifySeconds = CalculateNotifySeconds(alert);
-
-        if (alert is StartDateAlert)
-        {
-            string description = $"{Course.Name} {CurrentAssessment.Name} Starts in: {alert.ReminderValue} {alert.ReminderUnit}";
-
-            await alertService.ScheduleLocalNotification(CurrentAssessment.StartDate, alert.Id, title, description, notifySeconds);
-        }
-
-        if (alert is EndDateAlert)
-        {
-            string description = $"{Course.Name} {CurrentAssessment.Name} Ends in: {alert.ReminderValue} {alert.ReminderUnit}";
-
-            await alertService.ScheduleLocalNotification(CurrentAssessment.EndDate, alert.Id, title, description, notifySeconds);
-        }
     }
 
     [RelayCommand]
@@ -401,11 +340,63 @@ public partial class CourseViewModel : ObservableObject
             CurrentAssessment.StartDateAlerts.Remove(existingAlert);
             alertService.CancelLocalNotification(alert.Id);
         }
-        if (alert is EndDateAlert)
+        else if (alert is EndDateAlert)
         {
             var existingAlert = CurrentAssessment.EndDateAlerts.FirstOrDefault(a => a.Id == alert.Id);
             CurrentAssessment.EndDateAlerts.Remove(existingAlert);
             alertService.CancelLocalNotification(alert.Id);
         }
     }
+
+    [RelayCommand]
+    public async Task SaveAssessment()
+    {
+        var assessmentIndex = Course.Assessments.IndexOf(Course.Assessments.FirstOrDefault(a => a.Id == CurrentAssessment.Id));
+        if (assessmentIndex != -1)
+        {
+            Course.Assessments[assessmentIndex] = CurrentAssessment;
+            await ScheduleAssessmentAlerts(CurrentAssessment);
+        }
+    }
+    private async Task ScheduleAssessmentAlerts(Assessment assessment)
+    {
+        foreach (var alert in assessment.StartDateAlerts)
+        {
+            await ScheduleAssessmentNotification(alert, assessment);
+        }
+
+        foreach (var alert in assessment.EndDateAlerts)
+        {
+            await ScheduleAssessmentNotification(alert, assessment);
+        }
+
+        await alertService.ShowToast("Assessment Alerts Saved.");
+    }
+
+    private async Task ScheduleAssessmentNotification(Alert alert, Assessment assessment)
+    {
+        string title = "Assessment Notification";
+
+        double notifySeconds = CalculateNotifySeconds(alert);
+        DateTime targetNotifyTime;
+        string description;
+
+        if (alert is StartDateAlert)
+        {
+            targetNotifyTime = assessment.StartDate.AddSeconds(-notifySeconds);
+            description = $"{assessment.Type} for {Course.Name} starts in: {alert.ReminderValue} {alert.ReminderUnit}";
+        }
+        else if (alert is EndDateAlert)
+        {
+            targetNotifyTime = assessment.EndDate.AddSeconds(-notifySeconds);
+            description = $"{assessment.Type} for {Course.Name} ends in: {alert.ReminderValue} {alert.ReminderUnit}";
+        }
+        else
+        {
+            return;
+        }
+
+        await alertService.ScheduleLocalNotification(alert.Id, title, description, targetNotifyTime);
+    }
 }
+

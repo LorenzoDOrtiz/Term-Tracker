@@ -3,19 +3,19 @@ using TermTracker.Maui.ViewModels;
 
 namespace TermTracker.Maui.Views
 {
-    [QueryProperty(nameof(AssessmentType), "assessmentType")]
+    [QueryProperty(nameof(Assessment), "Assessment")]
     public partial class AssessmentAlertPage : ContentPage
     {
-        private CourseViewModel courseViewModel;
-        private string assessmentType;
+        private readonly CourseViewModel courseViewModel;
+        private Assessment assessment;
 
-        public string AssessmentType
+        public Assessment Assessment
         {
-            get => assessmentType;
+            get => assessment;
             set
             {
-                assessmentType = value;
-                SetCurrentAssessment();
+                assessment = value;
+                this.courseViewModel.CurrentAssessment = assessment;
             }
         }
 
@@ -23,23 +23,8 @@ namespace TermTracker.Maui.Views
         {
             InitializeComponent();
             this.courseViewModel = courseViewModel;
-            this.BindingContext = this.courseViewModel;
-        }
 
-        private void SetCurrentAssessment()
-        {
-            if (courseViewModel != null)
-            {
-                if (AssessmentType == "Objective")
-                {
-                    courseViewModel.CurrentAssessment = courseViewModel.Course.Assessments.OfType<ObjectiveAssessment>().FirstOrDefault();
-                }
-                else if (AssessmentType == "Performance")
-                {
-                    courseViewModel.CurrentAssessment = courseViewModel.Course.Assessments.OfType<PerformanceAssessment>().FirstOrDefault();
-                }
-                Title = $"{courseViewModel.CurrentAssessment.Name} Alerts";
-            }
+            this.BindingContext = this.courseViewModel;
         }
     }
 }

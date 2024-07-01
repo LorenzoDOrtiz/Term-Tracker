@@ -96,7 +96,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 
-                                <Label Text="{Binding Name}" FontAttributes="Bold" Grid.ColumnSpan="2"/>
+                                <Label Text="{Binding Type}" FontAttributes="Bold" Grid.ColumnSpan="2"/>
                                 
                                 <Label Text="Start Date" Grid.Row="1"/>
                                 <DatePicker Date="{Binding StartDate}" Grid.Row="2" />

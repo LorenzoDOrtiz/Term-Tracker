@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using TermTracker.CoreBusiness.Models;
+﻿using TermTracker.CoreBusiness.Models;
 using TermTracker.UseCases.PluginInterfaces;
 
 namespace TermTracker.Plugins.DataStore.InMemory;
@@ -8,41 +7,41 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
     public List<Course> _courses;
     public CourseInMemoryRepository()
     {
-        _courses = new List<Course>()
+        _courses = new()
         {
-            new Course
+            new()
             {
                 TermId = 1,
                 Id = 1,
-                Name = "Introduction to Computer Science",
-                StartDate = DateTime.Now.AddMinutes(2),
-                EndDate = DateTime.Now.AddMinutes(3),
-                Status = "In Progress",
-                Notes = "This is a foundational course for computer science students.",
-                Description = "This course is designed to provide students with a foundational understanding of computer science principles and practices. Throughout the course, students will explore the basics of programming, algorithms, data structures, computer systems, and software development.",
+                Name = "Mobile Application Development Using C# - C971",
+                StartDate = DateTime.Now.AddDays(1).Date,
+                EndDate = DateTime.Now.Date.AddMonths(1).Date,
+                Status = "Plan to Take",
+                Notes = "Study the .NET MAUI microsoft learning materials to prepare for this class.",
+                Description = "Mobile Application Development Using C# introduces students to programming for mobile devices. Building on students’ previous programming knowledge in C#, this course explores a broad range of topics, including mobile user interface design and development; building applications that adapt to different mobile devices and platforms; managing data using a local database; and consuming REST-based web services. In this course, students will focus on developing skills using the latest framework designed to provide a more modern and streamlined development experience. This framework will help students design and code cross-platform applications that work on a range of mobile devices. There are several prerequisites for this course: Software I and II, and UI Design.",
                 Instructor = new Instructor
                 {
-                    Name = "Dr. John Doe",
-                    PhoneNumber = "12345678",
-                    Email = "JohnDoe@gmail.com"
+                    Name = "Anika Patel",
+                    PhoneNumber = "555-123-4567",
+                    Email = "anika.patel@strimeuniversity.edu"
                 },
-                Assessments = new ObservableCollection<Assessment>
+                Assessments = new()
                 {
-                    new ObjectiveAssessment
-                    {
-                        Id = 0,
-                        CourseId = 1,
-                        Name = "Objective Assessment",
-                        StartDate = DateTime.Now.AddDays(1),
-                        EndDate = DateTime.Now.AddDays(2),
-                    },
-                    new PerformanceAssessment
+                    new Assessment
                     {
                         Id = 1,
                         CourseId = 1,
-                        Name = "Performance Assessment",
-                        StartDate = DateTime.Now.AddDays(1),
-                        EndDate = DateTime.Now.AddDays(2),
+                        Type = "Objective Assessment",
+                        StartDate = DateTime.Now.AddDays(7).Date,
+                        EndDate = DateTime.Now.AddDays(8).Date
+                    },
+                    new Assessment
+                    {
+                        Id = 2,
+                        CourseId = 1,
+                        Type = "Performance Assessment",
+                        StartDate = DateTime.Now.AddDays(15).Date,
+                        EndDate = DateTime.Now.AddMonths(1).Date
                     },
                 },
             }
@@ -86,7 +85,7 @@ public class CourseInMemoryRepository : ICourseRepository<Course>
             });
         }
 
-        return Task.FromResult<Course>(null);
+        return Task.FromResult(new Course());
     }
 
     public Task UpdateAsync(int courseId, Course course)

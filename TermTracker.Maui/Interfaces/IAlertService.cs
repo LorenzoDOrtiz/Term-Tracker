@@ -2,6 +2,6 @@
 public interface IAlertService
 {
     Task ShowToast(string text);
-    Task ScheduleLocalNotification(DateTime alertTypeDate, int alertId, string title, string description, double notifyDays);
+:     Task ScheduleLocalNotification(int alertId, string title, string description, DateTime targetNotifyTime);
     public bool CancelLocalNotification(int alertId);
 }

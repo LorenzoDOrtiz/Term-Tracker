@@ -122,21 +122,21 @@
                         </Grid.ColumnDefinitions>
 
                         <BoxView Color="LightGray"
-             BackgroundColor="Transparent"
-             HeightRequest="25"
-             WidthRequest="25"
-             CornerRadius="20"
-             HorizontalOptions="Center"
-             VerticalOptions="Center" />
+                                 BackgroundColor="Transparent"
+                                 HeightRequest="25"
+                                 WidthRequest="25"
+                                 CornerRadius="20"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center" />
 
                         <Button Text="+"
-            TextColor="Black"
-            FontAttributes="Bold"
-            FontSize="22"
-            BackgroundColor="Transparent"  
-            HorizontalOptions="Center"
-            VerticalOptions="Center"     
-            Command="{Binding AddAssessmentEndDateAlertCommand}" />
+                                TextColor="Black"
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                BackgroundColor="Transparent"  
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"     
+                                Command="{Binding AddAssessmentEndDateAlertCommand}" />
                     </Grid>
 
                     <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CurrentAssessment.EndDateAlerts}">
@@ -191,7 +191,7 @@
             </VerticalStackLayout>
         </Frame>
 
-        <Button x:Name="btnSave" Text="Save" Command="{Binding UpdateAssessmentAlertsAndScheduleNotificationsCommand}" />
+        <Button x:Name="btnSave" Text="Save" Command="{Binding SaveAssessmentCommand}" />
 
     </VerticalStackLayout>
 
