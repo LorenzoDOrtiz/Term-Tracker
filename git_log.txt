@@ -1,0 +1,152 @@
+commit a96fd89c8ba9ac9533df772a7622063bded644f2
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Wed Jul 3 14:02:32 2024 -0700
+
+    Small changes that change default assessment dates to today and adds title to objective assessment alerts.
+
+commit 960a051423b27a053a735dd4d8267a65dd559307
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 30 17:54:22 2024 -0700
+
+    Part D: Updates wireframe
+
+commit d568198388d973e55609ecad6168f5aaec0d6b9c
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 30 17:10:56 2024 -0700
+
+    C5: Fixes assessment notification bugs.
+    C6: Updates course model to have required data set
+
+commit edfa69cd87faa71a8df8461489972d2a3d013d60
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 30 11:17:28 2024 -0700
+
+    C3: Adds email validation from community toolkit
+    C4: Fixes a bug that didn't allow a different assessment alert page to load after the first one was clicked
+
+commit 6729e3220adc9a69fc77474923279005012c0e12
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 30 10:37:52 2024 -0700
+
+    C5: Adds the ability to add, edit, and delete assessment start and end date alerts.
+
+commit 64a29f5697be8a2e80bcba72958b70a4fa07ccb4
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Fri Jun 28 13:51:35 2024 -0700
+
+    C5: Adds swipe deleting of assessments and fixes a bug with term editing not updating the app shell.
+
+commit 80c067c39f998a6e9d95b21a60fd3a8485866643
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Fri Jun 28 12:08:06 2024 -0700
+
+    C4: Adds the ability to add course notes and share them.
+
+commit e28161d56936a004715574f38c8cf556b4f12bf4
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Fri Jun 28 11:25:54 2024 -0700
+
+    C4: Adds ability to add, delete, and edit course alerts.
+
+commit 26b470d31061e14d49d0dee8565e90eba06efaa0
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Tue Jun 25 17:03:41 2024 -0700
+
+    C2: Updates course model to include other properties and implements this is a course edit/add control/page while also implementing a course detailed view.
+
+commit d2b36bb823ce8b6e3910de48faa5712e013453bd
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Tue Jun 25 07:36:32 2024 -0700
+
+    C2, C3: Refactors the use cases, use case interfaces, and repository interfaces to use generics to try to follow DRY principle. Adds a course control that is used for adding and editing courses, and adds the beginning of a detailed course view.
+
+commit 7e2aceca203057752557444ac174bbbe34108865
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Mon Jun 24 08:07:50 2024 -0700
+
+    Removes partial from Course model class.
+
+commit f6a09bd29c2d057666f47f690aea793f2643109b
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Mon Jun 24 07:02:15 2024 -0700
+
+    Removes unnecessary observable object and properties from course model.
+
+commit a6b6cba7b9957267b2d2cadeb3a586867c4c1fbb
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Mon Jun 24 06:58:04 2024 -0700
+
+    C2: Adds a term courses view when a term is clicked in the flyout menu, courses loading based the selected terms termId, and terms being added to the observable collection of courses with the selected termId for subsequent loading of courses.
+
+commit 150f75cf96ce70c51e4ceedbb5ffc6dbfa912f51
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 11:34:49 2024 -0700
+
+    C2: Adds TermCoursesPage navigation, passing the selected term as a parameter and setting the title to the term name.
+
+commit c106ca1411e2dee811bda43beaf442f52de11670
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 05:16:19 2024 -0700
+
+    C1: Adds term input validation with CommunityToolKit Toast for user feedback.
+
+commit cd32a1a8f413c97ace0f1b7a5871686d7650172a
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 03:59:06 2024 -0700
+
+    File rename from TermTracker to TermTracker.Maui
+
+commit fe18df3fbd9fbdbf6a0ee9c5c74c9b931330df59
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 03:17:47 2024 -0700
+
+    Adds spacing to term control
+
+commit 7eb50335c5c8d76a4953e4597ef6fe46247ae5f4
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 03:16:39 2024 -0700
+
+    TermControl update
+
+commit 1eec150c0b5b09ccd3ab7c08e42364a7b3cfbd87
+Merge: 5f31163 dbb3a45
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 02:32:03 2024 -0700
+
+    C1: Adds adding, deleting, and editing of terms.
+
+commit 5f3116317c0545aa3194f17bf2f0b66cedec2f74
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 02:11:34 2024 -0700
+
+    C1: Adds adding, deleting, and editing of terms.
+
+commit dbb3a456c1465319cea46b3968d73eff22dc5ca3
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sun Jun 23 02:11:34 2024 -0700
+
+    Adds adding, deleting, and editing of terms.
+
+commit d6494aa520cbfe00a1918ba713fe09185e93a112
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Sat Jun 22 01:00:49 2024 -0700
+
+    Adds flyout term loading.
+
+commit 448dfca45ef9c300ba260717635f0ba75a9491ab
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Fri Jun 21 17:35:20 2024 -0700
+
+    B1, B2, B3: Adds wireframe wireflow
+
+commit 222a7b3ed9d4126e95751a41a7a8264139e33b6d
+Author: Lorenzo Ortiz <LorenzoDavidOrtiz@gmail.com>
+Date:   Fri Jun 21 17:30:58 2024 -0700
+
+    Initial commit
+
+commit 447c59d9217604d4921bb30b637677ea22d06cee
+Author: Matt Alexander <matt@twocom.com>
+Date:   Mon Jul 31 18:25:32 2023 +0000
+
+    Initial commit
