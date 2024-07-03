@@ -285,12 +285,12 @@ public partial class CourseViewModel : ObservableObject
 
         if (result == "Objective Assessment")
         {
-            var newAssessment = new Assessment { CourseId = Course.Id, Id = id, Type = "Objective Assessment" };
+            var newAssessment = new Assessment { CourseId = Course.Id, Id = id, Type = "Objective Assessment", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(7) };
             Course.Assessments.Add(newAssessment);
         }
         else if (result == "Performance Assessment")
         {
-            var newAssessment = new Assessment { CourseId = Course.Id, Id = id, Type = "Performance Assessment" };
+            var newAssessment = new Assessment { CourseId = Course.Id, Id = id, Type = "Performance Assessment", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(7) };
             Course.Assessments.Add(newAssessment);
         }
     }

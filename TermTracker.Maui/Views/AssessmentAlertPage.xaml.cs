@@ -16,6 +16,7 @@ namespace TermTracker.Maui.Views
             {
                 assessment = value;
                 this.courseViewModel.CurrentAssessment = assessment;
+                Title = $"{this.courseViewModel.CurrentAssessment.Type} Alerts";
             }
         }
 

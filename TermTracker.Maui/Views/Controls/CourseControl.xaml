@@ -99,10 +99,10 @@
                                 <Label Text="{Binding Type}" FontAttributes="Bold" Grid.ColumnSpan="2"/>
                                 
                                 <Label Text="Start Date" Grid.Row="1"/>
-                                <DatePicker Date="{Binding StartDate}" Grid.Row="2" />
+                                <DatePicker x:Name="StartDatePicker" Date="{Binding StartDate}" Grid.Row="2" />
                                 
                                 <Label Text="End Date" Grid.Row="1" Grid.Column="1"/>
-                                <DatePicker Date="{Binding EndDate}" Grid.Row="2" Grid.Column="1"/>
+                                <DatePicker x:Name="EndDatePicker" Date="{Binding EndDate}" Grid.Row="2" Grid.Column="1"/>
                             </Grid>
                         </Frame>
                         </SwipeView>
