@@ -1,0 +1,112 @@
+<Shell
+    x:Class="TermTracker.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TermTracker.Maui"
+    xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+    xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    x:DataType="vm:TermsViewModel"
+    Shell.FlyoutBehavior="Flyout"
+    Title="Term Tracker">
+
+    <Shell.FlyoutContentTemplate>
+        <DataTemplate>
+            <ScrollView VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout>
+                    <CollectionView
+                        x:Name="TermsCollection"
+                        ItemsSource="{Binding Terms}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Term">
+                                <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Delete"
+                                                       IsDestructive="True"
+                                                       BackgroundColor="Red"
+                                                       Command="{Binding Source={x:Reference TermsCollection}, Path=BindingContext.DeleteTermCommand}"
+                                                       CommandParameter="{Binding TermId}" />
+                                            <SwipeItem Text="Edit"
+                                                       IsDestructive="False"
+                                                       BackgroundColor="Green"
+                                                       Command="{Binding Source={x:Reference TermsCollection}, Path=BindingContext.GotoEditTermCommand}"
+                                                       CommandParameter="{Binding TermId}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame Margin="0,0,0,1">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TermsViewModel}}, Path=GotoTermCoursesCommand}" />
+                                        </Frame.GestureRecognizers>
+                                        <Grid RowSpacing="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Text="{Binding TermName}"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   Grid.Row="0"
+                                                   Grid.ColumnSpan="2"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                            <Label Text="{Binding TermStartDate, StringFormat='{0:MM/dd/yyyy - }'}"
+                                                   FontSize="12"
+                                                   Grid.Row="1"
+                                                   Grid.Column="0"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="Center" />
+                                            <Label Text="{Binding TermEndDate, StringFormat='{0:MM/dd/yyyy}'}"
+                                                   FontSize="12"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Center" />
+                                        </Grid>
+                                    </Frame>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <BoxView Color="LightGray"
+                                 BackgroundColor="Transparent"
+                                 HeightRequest="30"
+                                 WidthRequest="30"
+                                 CornerRadius="20"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center" />
+
+                        <Button Text="+"
+                                TextColor="Black"
+                                FontAttributes="Bold"
+                                FontSize="32"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Command="{Binding GotoAddTermCommand}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+        </DataTemplate>
+    </Shell.FlyoutContentTemplate>
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+</Shell>

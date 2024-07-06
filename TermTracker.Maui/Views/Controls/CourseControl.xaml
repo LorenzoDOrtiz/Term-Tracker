@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:TermTracker.Maui.Views.Controls"
+             xmlns:vm="clr-namespace:TermTracker.Maui.ViewModels"
+             xmlns:model="clr-namespace:TermTracker.CoreBusiness.Models;assembly=TermTracker.CoreBusiness"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="TermTracker.Maui.Views.Controls.CourseControl"
+             x:DataType="vm:CourseViewModel">
+    <ContentView.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Green" />
+        </Style>
+    </ContentView.Resources>
+    <ScrollView>
+        <VerticalStackLayout Margin="30, 10, 30, 0" Spacing="10">
+            <Label   Text="Course Name"
+                         FontAttributes="Bold" />
+
+            <Entry Text="{Binding Course.Name}" />
+
+            <Label Text="Start Date"
+                       FontAttributes="Bold"/>
+            <DatePicker Date="{Binding Course.StartDate}" />
+
+            <Label Text="End Date"
+                       FontAttributes="Bold"/>
+            <DatePicker Date="{Binding Course.EndDate}" />
+
+            <Picker Title="Status"
+                    ItemsSource="{Binding Statuses}"
+                    SelectedItem="{Binding Course.Status}" />
+
+            <Label Text="Description" 
+                   FontAttributes="Bold"/>
+
+            <Editor Text="{Binding Course.Description}"
+                    AutoSize="TextChanges"/>
+
+            <Label Text="Instructor" 
+                   FontAttributes="Bold"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"/>
+
+            <Label Text="Name" />
+            <Entry Text="{Binding Course.Instructor.Name}" />
+
+            <Label Text="Phone" />
+            <Entry Text="{Binding Course.Instructor.PhoneNumber}"
+                   Keyboard="Telephone"/>
+
+            <Label Text="Email" />
+            <Entry Text="{Binding Course.Instructor.Email}"
+                   Keyboard="Email">
+                <Entry.Behaviors>
+                    <toolkit:EmailValidationBehavior 
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged"
+                        IsValid="{Binding IsEmailValid}" /> 
+                </Entry.Behaviors>
+            </Entry>
+
+            <Label Text="Assessments" 
+                   FontAttributes="Bold" />
+
+            <CollectionView ItemsSource="{Binding Course.Assessments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Assessment">
+                        <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                               IsDestructive="True"
+                                               BackgroundColor="Red"
+                                               Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CourseViewModel}}, Path=DeleteAssessmentCommand}"
+                                               CommandParameter="{Binding .}" />
+                                    
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame Padding="10" Margin="0, 5" BorderColor="LightGray">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Text="{Binding Type}" FontAttributes="Bold" Grid.ColumnSpan="2"/>
+                                
+                                <Label Text="Start Date" Grid.Row="1"/>
+                                <DatePicker x:Name="StartDatePicker" Date="{Binding StartDate}" Grid.Row="2" />
+                                
+                                <Label Text="End Date" Grid.Row="1" Grid.Column="1"/>
+                                <DatePicker x:Name="EndDatePicker" Date="{Binding EndDate}" Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <BoxView Color="LightGray"
+                         BackgroundColor="Transparent"
+                         HeightRequest="30"
+                         WidthRequest="30"
+                         CornerRadius="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center" />
+
+                <Button Text="+"
+                         TextColor="Black"
+                         FontAttributes="Bold"
+                         FontSize="20"
+                         BackgroundColor="Transparent"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Command="{Binding AddAssessmentCommand}" />    
+            </Grid>
+            
+            <Button x:Name="btnSave" Text="Save" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>
